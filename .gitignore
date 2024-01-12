@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/InvestimentPlatform.Backend
+/src/API/obj
+/src/Application/obj/Debug/net7.0
+/src/Application/obj
+/src/Domain/obj
+/src/Infra/obj
+/tests/UnitTests/obj
+/tests/UnitTests/bin/Debug/net7.0
+/src/API/bin/Debug/net7.0
+/src/Application/bin/Debug/net7.0
+/src/Domain/bin/Debug/net7.0
+/src/Infra/bin/Debug/net7.0
