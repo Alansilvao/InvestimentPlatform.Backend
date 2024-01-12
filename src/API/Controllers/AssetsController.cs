@@ -21,6 +21,8 @@ public class AssetsController : ControllerBase
 		_getAssetBySymbolUseCase = getAssetBySymbolUseCase;
 	}
 
+	//CRUD: POST, PUT e DELETE.
+
 	[HttpGet]
 	public async Task<IActionResult> GetAllAssets()
 	{
