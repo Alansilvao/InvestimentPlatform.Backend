@@ -22,6 +22,7 @@ public class AssetsController : ControllerBase
 	}
 
 	[HttpGet]
+	[AllowAnonymous]
 	public async Task<IActionResult> GetAllAssets()
 	{
 		try
