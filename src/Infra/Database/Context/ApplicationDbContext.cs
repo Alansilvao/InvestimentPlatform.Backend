@@ -1,7 +1,6 @@
 using Domain.Entities;
 using Infra.Database.Map;
 using Infra.Database.models;
-using Infra.Database.Seeds;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.Context;
@@ -22,7 +21,6 @@ public class ApplicationDbContext : DbContext
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
         modelBuilder.ApplyConfiguration(new AssetMap());
-		modelBuilder.AssetsSeed();
 
         base.OnModelCreating(modelBuilder);       
 	}
