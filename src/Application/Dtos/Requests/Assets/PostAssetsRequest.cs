@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Dtos.Requests.Assets
+{
+    public class PostAssetsRequest
+    {
+        [Required(ErrorMessage = "Asset name is required")]
+        public String? Name { get; set; }
+        [Required(ErrorMessage = "Symbol is required")]
+        public string Symbol { get; set; }
+        [Required(ErrorMessage = "AvailableQuantity is required")]
+        public int AvailableQuantity { get; set; }
+        [Required(ErrorMessage = "Price is required")]
+        public decimal Price { get; set; }
+    }
+}
