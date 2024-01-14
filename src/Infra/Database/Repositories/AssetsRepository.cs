@@ -22,7 +22,7 @@ public class AssetsRepository : IAssetsRepository
     {
         var asset = await _context.Assets.FirstOrDefaultAsync(c => c.Name == name);
 
-        if (asset is null)
+        if (asset != null)
             throw new HttpStatusException(StatusCodes.Status400BadRequest, "Existing asset");
 
         var requestAsset = new AssetModel
