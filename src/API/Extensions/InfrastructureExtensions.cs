@@ -12,21 +12,15 @@ public static class InfrastructureExtensions
 	public static void AddInfrastructure
 		(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.AddMySql(configuration);
+		services.AddDbContext(configuration);
 		services.AddRepositories();
 	}
 
-	private static void AddMySql(this IServiceCollection services, IConfiguration configuration)
+	private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
 	{
-		var connectionString = configuration.GetConnectionString("MySqlLocal");
+		var connectionString = configuration.GetConnectionString("SqlServer");
 
-		services.AddDbContext<ApplicationDbContext>
-		(
-			options =>
-			{
-				options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-			}
-		);
+		services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 	}
 
 	private static void AddRepositories(this IServiceCollection services)

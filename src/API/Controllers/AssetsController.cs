@@ -1,9 +1,6 @@
-using Application.Dtos.Requests;
-using Application.Dtos.Requests.Account;
 using Application.Dtos.Requests.Assets;
 using Application.Exceptions;
 using Application.Interfaces.UseCases;
-using Application.UseCases.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +14,9 @@ public class AssetsController : ControllerBase
     private readonly IGetAssetBySymbolUseCase _getAssetBySymbolUseCase;
     private readonly IPostAssetsUseCase _postAssetsUseCase;
 
-    public AssetsController
-        (IGetAllAssetsUseCase getAllAssetsUseCase,
-        IGetAssetBySymbolUseCase getAssetBySymbolUseCase,
+    public AssetsController(
+        IGetAllAssetsUseCase getAllAssetsUseCase, 
+        IGetAssetBySymbolUseCase getAssetBySymbolUseCase, 
         IPostAssetsUseCase postAssetsUseCase)
     {
         _getAllAssetsUseCase = getAllAssetsUseCase;
@@ -27,36 +24,8 @@ public class AssetsController : ControllerBase
         _postAssetsUseCase = postAssetsUseCase;
     }
 
-    //Criar CRUD para cadastrar ação: POST, PUT e DELETE.
-
-    [HttpPost()]
-    public async Task<IActionResult> PostAssets([FromBody] PostAssetsRequest request)
-    {
-        try
-        {
-            if (ModelState.IsValid is false)
-                return BadRequest(ModelState);
-
-            var authorizationHeader = Request.Headers["Authorization"].ToString();
-            var token = authorizationHeader["Bearer ".Length..].Trim();
-
-            var output = await _postAssetsUseCase.ExecuteAsync(request, token);
-            return Ok(output);
-        }
-        catch (HttpStatusException ex)
-        {
-            return StatusCode(ex.StatusCode, new { ex.Message });
-        }
-        catch (Exception)
-        {
-            return StatusCode
-            (
-                StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
-            );
-        }
-    }
-
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllAssets()
     {
         try
@@ -74,12 +43,43 @@ public class AssetsController : ControllerBase
     }
 
     [HttpGet("{symbol}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAssetBySymbol(string symbol)
     {
         try
         {
             var output = await _getAssetBySymbolUseCase.ExecuteAsync(symbol);
             return output is null ? BadRequest() : Ok(output);
+        }
+        catch (HttpStatusException ex)
+        {
+            return StatusCode(ex.StatusCode, new { ex.Message });
+        }
+        catch (Exception)
+        {
+            return StatusCode
+            (
+                StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
+            );
+        }
+    }
+
+    [HttpPost()]
+    [AllowAnonymous]
+    public async Task<IActionResult> PostAssets([FromBody] PostAssetsRequest request)
+    {
+        try
+        {
+            if (ModelState.IsValid is false)
+                return BadRequest(ModelState);
+
+            //var authorizationHeader = Request.Headers["Authorization"].ToString();
+            //var token = authorizationHeader["Bearer ".Length..].Trim();
+
+            //var output = await _postAssetsUseCase.ExecuteAsync(request, token);
+            var output = await _postAssetsUseCase.ExecuteAsync(request, string.Empty);
+
+            return Ok(output);
         }
         catch (HttpStatusException ex)
         {

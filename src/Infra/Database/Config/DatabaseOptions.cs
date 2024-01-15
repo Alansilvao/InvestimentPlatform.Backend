@@ -2,5 +2,5 @@ namespace Infra.Database.Config;
 
 public class DatabaseOptions
 {
-	public string MySqlConnection { get; init; } = null!;
+	public string SqlServer { get; init; } = null!;
 }
