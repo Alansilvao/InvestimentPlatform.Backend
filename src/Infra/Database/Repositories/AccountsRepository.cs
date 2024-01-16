@@ -35,16 +35,23 @@ public class AccountsRepository : IAccountsRepository
 
 	public async Task<decimal> GetAccountBalanceAsync(string clientEmail)
 	{
-		var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
+        return await Task.FromResult(1);
+		/*
+        var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
 			(client => client.Email == clientEmail);
 
 		if (client is null)
 			throw new HttpStatusException(StatusCodes.Status404NotFound, "Account not found");
 		return client.Account!.Balance;
+
+		*/
 	}
 
 	public async Task<bool> DepositAsync(string clientEmail, decimal amount)
 	{
+		return await Task.FromResult(true);
+
+		/*
 		var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
 			(client => client.Email == clientEmail);
 
@@ -64,11 +71,15 @@ public class AccountsRepository : IAccountsRepository
 			}
 		);
 		return await _context.SaveChangesAsync() > 0;
+		*/
 	}
 
 	public async Task<bool> WithdrawAsync(string clientEmail, int amount)
 	{
-		var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
+        return await Task.FromResult(true);
+
+		/*
+        var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
 			(client => client.Email == clientEmail);
 
 		if (client is null)
@@ -90,5 +101,6 @@ public class AccountsRepository : IAccountsRepository
 			}
 		);
 		return await _context.SaveChangesAsync() > 0;
+		*/
 	}
 }

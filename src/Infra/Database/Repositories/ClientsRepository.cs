@@ -18,17 +18,11 @@ public class ClientsRepository : IClientsRepository
 
 	public async Task<bool> CreateAsync(Client client)
 	{
-		var clientModel = new ClientModel
-		{
-			Id = client.Id,
-			Name = client.Name,
-			Email = client.Email,
-			Password = client.Password
-		};
-
-		if (await _context.Clients.AddAsync(clientModel) is null)
+		if (await _context.Clients.AddAsync(client) is null)
 			return false;
+
 		await _context.SaveChangesAsync();
+
 		return true;
 	}
 
@@ -41,6 +35,9 @@ public class ClientsRepository : IClientsRepository
 
 	public async Task<Account?> GetClientAccountAsync(string clientEmail)
 	{
+        return null;
+        /*
+		
 		var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
 			(client => client.Email == clientEmail);
 		if (client is null)
@@ -48,12 +45,14 @@ public class ClientsRepository : IClientsRepository
 		return new Account
 		(
 			client.Account!.Id, client.Account.ClientId, client.Account.Balance
-		);
+		);*/
 	}
 
 	public async Task<GetTransactionsExtractResponse> GetTransactionsExtractAsync
 		(string clientEmail)
 	{
+		return null;
+		/*
 		var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
 			(client => client.Email == clientEmail);
 		var account = client!.Account;
@@ -83,5 +82,7 @@ public class ClientsRepository : IClientsRepository
 				)
 			)
 		};
-	}
+
+		*/
+    }
 }

@@ -128,6 +128,9 @@ public class PortfolioRepository : IPortfolioRepository
 
 	public async Task<GetPortfolioResponse> GetPortfolioAsync(string clientEmail)
 	{
+        return null;
+		/*
+		
 		var account = _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
 			(client => client.Email == clientEmail).Result!.Account;
 
@@ -151,6 +154,6 @@ public class PortfolioRepository : IPortfolioRepository
 					AccountId = p.AccountId
 				}
 			).ToList()
-		);
+		);*/
 	}
 }
