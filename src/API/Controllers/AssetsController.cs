@@ -25,7 +25,6 @@ public class AssetsController : ControllerBase
     }
 
     [HttpGet]
-    //[AllowAnonymous]
     public async Task<IActionResult> GetAllAssets()
     {
         try
@@ -43,7 +42,6 @@ public class AssetsController : ControllerBase
     }
 
     [HttpGet("{symbol}")]
-    [AllowAnonymous]
     public async Task<IActionResult> GetAssetBySymbol(string symbol)
     {
         try
@@ -65,7 +63,6 @@ public class AssetsController : ControllerBase
     }
 
     [HttpPost()]
-    [AllowAnonymous]
     public async Task<IActionResult> PostAssets([FromBody] PostAssetsRequest request)
     {
         try
