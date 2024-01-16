@@ -1,13 +1,14 @@
 using Application.Dtos.Requests.Assets;
 using Application.Exceptions;
 using Application.Interfaces.UseCases;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
 [Route("api/v1/assets")]
-[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class AssetsController : ControllerBase
 {
     private readonly IGetAllAssetsUseCase _getAllAssetsUseCase;

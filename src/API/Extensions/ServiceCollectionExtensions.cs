@@ -44,9 +44,12 @@ public static class ServiceCollectionExtensions
 	public static void AddJwtAuthentication
 		(this IServiceCollection services, IConfiguration configuration)
 	{
-		services
-			.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-			.AddJwtBearer
+        services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+          .AddJwtBearer
 			(
 				x =>
 					x.TokenValidationParameters = new TokenValidationParameters
