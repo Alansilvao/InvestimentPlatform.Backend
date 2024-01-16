@@ -19,3 +19,5 @@
 /tests/UnitTests/obj/UnitTests.csproj.nuget.dgspec.json
 /tests/UnitTests/obj/UnitTests.csproj.nuget.g.props
 /tests/UnitTests/obj/UnitTests.csproj.nuget.g.targets
+/tests/UnitTests/obj/Release/net7.0
+/tests/UnitTests/bin/Release/net7.0
