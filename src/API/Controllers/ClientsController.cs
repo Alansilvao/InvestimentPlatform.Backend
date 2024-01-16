@@ -19,7 +19,7 @@ public class ClientsController : ControllerBase
 	}
 
 	[HttpPost]
-	[Route("login")]
+	[Route("token")]
 	public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
 	{
 		try
@@ -34,7 +34,7 @@ public class ClientsController : ControllerBase
 		{
 			return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception ex)
+		catch (Exception)
 		{
 			return StatusCode
 			(

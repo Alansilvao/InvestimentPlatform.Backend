@@ -70,11 +70,10 @@ public class AssetsController : ControllerBase
             if (ModelState.IsValid is false)
                 return BadRequest(ModelState);
 
-            //var authorizationHeader = Request.Headers["Authorization"].ToString();
-            //var token = authorizationHeader["Bearer ".Length..].Trim();
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
+            var token = authorizationHeader["Bearer ".Length..].Trim();
 
-            //var output = await _postAssetsUseCase.ExecuteAsync(request, token);
-            var output = await _postAssetsUseCase.ExecuteAsync(request, string.Empty);
+            var output = await _postAssetsUseCase.ExecuteAsync(request, token);
 
             return Ok(output);
         }
