@@ -26,6 +26,8 @@ public static class ServiceCollectionExtensions
 			.AddScoped<IGetAllAssetsUseCase, GetAllAssetsUseCase>()
 			.AddScoped<IGetAssetBySymbolUseCase, GetAssetBySymbolUseCase>()
             .AddScoped<IPostAssetsUseCase, PostAssetsUseCase>()
+            .AddScoped<IPutAssetsUseCase, PutAssetsUseCase>()
+            .AddScoped<IDeleteAssetsUseCase, DeleteAssetsUseCase>()
             .AddScoped<IBuyAssetUseCase, BuyAssetUseCase>()
 			.AddScoped<ISellAssetUseCase, SellAssetUseCase>()
 			.AddScoped<IDepositUseCase, DepositUseCase>()

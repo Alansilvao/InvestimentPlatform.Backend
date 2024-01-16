@@ -27,7 +27,32 @@ public class AssetsRepository : IAssetsRepository
 
         await _context.AddAsync(newAsset);
         await _context.SaveChangesAsync();
+        return true;
+    }
 
+    public async Task<bool> PutAssetsAsync(int id, string name, int availableQuantity, decimal price)
+    {
+        var asset = await _context.Assets.FirstOrDefaultAsync(c => c.Id == id);
+
+        if (asset is null)
+            throw new HttpStatusException(StatusCodes.Status404NotFound, "Asset not found");
+
+        var newAsset = new Asset(symbol, name, availableQuantity, price);
+
+        _context.Update(newAsset);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeleteAssetsAsync(int id)
+    {
+        var asset = await _context.Assets.FirstOrDefaultAsync(c => c.Id == id);
+
+        if (asset is null)
+            throw new HttpStatusException(StatusCodes.Status404NotFound, "Asset not found");
+
+        _context.Remove(asset);
+        await _context.SaveChangesAsync();
         return true;
     }
 
