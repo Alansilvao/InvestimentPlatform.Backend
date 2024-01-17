@@ -19,7 +19,7 @@ public class ClientsController : ControllerBase
 	}
 
 	[HttpPost]
-	[Route("login")]
+	[Route("token")]
 	public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
 	{
 		try

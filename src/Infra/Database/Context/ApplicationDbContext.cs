@@ -11,7 +11,7 @@ public class ApplicationDbContext : DbContext
 	{
 	}
 
-	public DbSet<ClientModel> Clients { get; set; } = null!;
+	public DbSet<Client> Clients { get; set; } = null!;
 	public DbSet<AccountModel> Accounts { get; set; } = null!;
 	public DbSet<Asset> Assets { get; set; } = null!;
 	public DbSet<PortfolioModel> Portfolios { get; set; } = null!;
@@ -21,6 +21,8 @@ public class ApplicationDbContext : DbContext
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
         modelBuilder.ApplyConfiguration(new AssetMap());
+        modelBuilder.ApplyConfiguration(new ClientMap());
+        modelBuilder.ApplyConfiguration(new AccountMap());
 
         base.OnModelCreating(modelBuilder);       
 	}

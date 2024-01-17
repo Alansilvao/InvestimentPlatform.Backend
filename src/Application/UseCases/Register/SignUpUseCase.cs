@@ -40,11 +40,11 @@ public class SignUpUseCase : ISignUpUseCase
 			throw new HttpStatusException
 				(StatusCodes.Status422UnprocessableEntity, "Failed to create Account");
 
-		var account = new Domain.Entities.Account(newClient.Id, 0);
+		//var account = new Domain.Entities.Account(newClient.Id, 0);
 
-		if (!await _accountRepository.CreateAsync(account))
-			throw new HttpStatusException
-				(StatusCodes.Status422UnprocessableEntity, "Failed to create Account");
+		//if (!await _accountRepository.CreateAsync(account))
+		//	throw new HttpStatusException
+		//		(StatusCodes.Status422UnprocessableEntity, "Failed to create Account");
 
 		return Task.CompletedTask;
 	}
