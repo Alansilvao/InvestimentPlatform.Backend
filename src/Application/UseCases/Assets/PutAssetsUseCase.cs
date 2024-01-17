@@ -3,11 +3,6 @@ using Application.Dtos.Responses.Assets;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Interfaces.UseCases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UseCases.Assets;
 
@@ -24,7 +19,7 @@ public class PutAssetsUseCase : IPutAssetsUseCase
 
     public async Task<PutAssetsResponse> ExecuteAsync(PutAssetsRequest request, string token, CancellationToken cancellationToken = default)
     {
-        await _assetsRepository.PutAssetsAsync(request.Id, request.Symbol, request.Name, request.AvailableQuantity, request.Price);
+        await _assetsRepository.PutAssetsAsync(request);
         return new PutAssetsResponse();
     }
 }

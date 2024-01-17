@@ -1,3 +1,4 @@
+using Application.Dtos.Requests.Assets;
 using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
@@ -23,23 +24,9 @@ public class AssetsRepository : IAssetsRepository
         if (asset is not null)
             throw new HttpStatusException(StatusCodes.Status400BadRequest, "Existing asset symbol");
 
-        var newAsset = new Asset(symbol, name, availableQuantity, price);
+        var newAsset = new Asset(1, symbol, name, availableQuantity, price);
 
         await _context.AddAsync(newAsset);
-        await _context.SaveChangesAsync();
-        return true;
-    }
-
-    public async Task<bool> PutAssetsAsync(int id, string name, int availableQuantity, decimal price)
-    {
-        var asset = await _context.Assets.FirstOrDefaultAsync(c => c.Id == id);
-
-        if (asset is null)
-            throw new HttpStatusException(StatusCodes.Status404NotFound, "Asset not found");
-
-        var newAsset = new Asset(symbol, name, availableQuantity, price);
-
-        _context.Update(newAsset);
         await _context.SaveChangesAsync();
         return true;
     }
@@ -56,9 +43,36 @@ public class AssetsRepository : IAssetsRepository
         return true;
     }
 
-    public async Task<IEnumerable<Asset>> GetAllAsync(CancellationToken cancellationToken = default) 
+    public async Task<IEnumerable<Asset>> GetAllAsync(CancellationToken cancellationToken = default)
         => await _context.Assets.ToListAsync(cancellationToken);
 
     public async Task<Asset?> GetBySymbolAsync(string symbol, CancellationToken cancellationToken = default)
         => await _context.Assets.FirstOrDefaultAsync(it => it.Symbol == symbol, cancellationToken);
+
+    public async Task<bool> PutAssetsAsync(PutAssetsRequest assets)
+    {
+        try
+        {
+            var asset = await _context.Assets.FirstOrDefaultAsync(c => c.Id == assets.Id);
+
+            if (asset is null)
+                throw new HttpStatusException(StatusCodes.Status404NotFound, "Asset not found");
+
+            asset.Symbol = assets.Symbol;
+            asset.Name = assets.Name;
+            asset.AvailableQuantity = assets.AvailableQuantity;
+            asset.Price = assets.Price;
+
+            var updateAsset = new Asset(assets.Id, assets.Symbol, assets.Name, assets.AvailableQuantity, assets.Price);
+
+            _context.Update(asset);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
+    }
 }

@@ -1,4 +1,3 @@
-using Application.Dtos.Requests;
 using Application.Dtos.Requests.Clients;
 using Application.Exceptions;
 using Application.Interfaces.UseCases;

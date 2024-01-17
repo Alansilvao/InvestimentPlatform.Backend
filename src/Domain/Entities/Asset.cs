@@ -8,9 +8,10 @@ public class Asset
 	public int AvailableQuantity { get; set; }
 	public decimal Price { get; set; }
 
-	public Asset(string symbol, string name, int availableQuantity, decimal price)
+	public Asset(int id, string symbol, string name, int availableQuantity, decimal price)
 	{
-		Symbol = symbol;
+        Id = id;
+        Symbol = symbol;
 		Name = name;
 		AvailableQuantity = availableQuantity;
 		Price = price;

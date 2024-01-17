@@ -96,7 +96,7 @@ public class AssetsController : ControllerBase
         }
     }
 
-    [HttpPut("Change/{id}")]
+    [HttpPut("Change/")]
     [AllowAnonymous]
     public async Task<IActionResult> PutAssets([FromBody] PutAssetsRequest request)
     {
@@ -105,10 +105,6 @@ public class AssetsController : ControllerBase
             if (ModelState.IsValid is false)
                 return BadRequest(ModelState);
 
-            //var authorizationHeader = Request.Headers["Authorization"].ToString();
-            //var token = authorizationHeader["Bearer ".Length..].Trim();
-
-            //var output = await _putAssetsUseCase.ExecuteAsync(request, token);
             var output = await _putAssetsUseCase.ExecuteAsync(request, string.Empty);
 
             return Ok(output);
