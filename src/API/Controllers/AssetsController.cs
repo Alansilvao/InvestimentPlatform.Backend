@@ -98,13 +98,15 @@ public class AssetsController : ControllerBase
     }
 
     [HttpPut("Change/")]
-    [AllowAnonymous]
     public async Task<IActionResult> PutAssets([FromBody] PutAssetsRequest request)
     {
         try
         {
             if (ModelState.IsValid is false)
                 return BadRequest(ModelState);
+
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
+            var token = authorizationHeader["Bearer ".Length..].Trim();
 
             var output = await _putAssetsUseCase.ExecuteAsync(request, string.Empty);
 
@@ -124,7 +126,7 @@ public class AssetsController : ControllerBase
     }
 
     [HttpDelete("Remove/{id}")]
-    [AllowAnonymous]
+
     public async Task<IActionResult> DeleteAssets([FromBody] DeleteAssetsRequest request)
     {
         try
@@ -132,11 +134,10 @@ public class AssetsController : ControllerBase
             if (ModelState.IsValid is false)
                 return BadRequest(ModelState);
 
-            //var authorizationHeader = Request.Headers["Authorization"].ToString();
-            //var token = authorizationHeader["Bearer ".Length..].Trim();
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
+            var token = authorizationHeader["Bearer ".Length..].Trim();
 
-            //var output = await _putAssetsUseCase.ExecuteAsync(request, token);
-            var output = await _deleteAssetsUseCase.ExecuteAsync(request, string.Empty);
+            var output = await _deleteAssetsUseCase.ExecuteAsync(request, token);
 
             return Ok(output);
         }
