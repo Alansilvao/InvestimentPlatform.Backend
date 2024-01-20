@@ -37,7 +37,12 @@ public class AssetsController : ControllerBase
         try
         {
             var output = await _getAllAssetsUseCase.ExecuteAsync(new GetAllAssetsRequest());
+
             return Ok(output);
+        }
+        catch (HttpStatusException ex)
+        {
+            return StatusCode(ex.StatusCode, new { ex.Message });
         }
         catch (Exception)
         {
@@ -54,7 +59,8 @@ public class AssetsController : ControllerBase
         try
         {
             var output = await _getAssetBySymbolUseCase.ExecuteAsync(symbol);
-            return output is null ? BadRequest() : Ok(output);
+
+            return Ok(output);
         }
         catch (HttpStatusException ex)
         {
@@ -97,7 +103,7 @@ public class AssetsController : ControllerBase
         }
     }
 
-    [HttpPut("Change/")]
+    [HttpPut()]
     public async Task<IActionResult> PutAssets([FromBody] PutAssetsRequest request)
     {
         try
@@ -125,8 +131,7 @@ public class AssetsController : ControllerBase
         }
     }
 
-    [HttpDelete("Remove/{id}")]
-
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAssets([FromBody] DeleteAssetsRequest request)
     {
         try

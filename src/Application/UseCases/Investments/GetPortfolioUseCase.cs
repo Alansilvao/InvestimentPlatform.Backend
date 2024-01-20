@@ -11,7 +11,6 @@ public class GetPortfolioUseCase : IGetPortfolioUseCase
 	private readonly IJwtProvider _jwtProvider;
 	private readonly IPortfolioRepository _portfolioRepository;
 
-
 	public GetPortfolioUseCase(IJwtProvider jwtProvider, IPortfolioRepository portfolioRepository)
 	{
 		_jwtProvider = jwtProvider;
@@ -23,6 +22,7 @@ public class GetPortfolioUseCase : IGetPortfolioUseCase
 	{
 		var tokenInfo = _jwtProvider.DecodeToken(token);
 		var portfolios = _portfolioRepository.GetPortfolioAsync(tokenInfo.Email);
+
 		return portfolios;
 	}
 }
