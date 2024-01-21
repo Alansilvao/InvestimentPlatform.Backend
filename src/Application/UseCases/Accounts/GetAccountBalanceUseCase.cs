@@ -17,14 +17,11 @@ public class GetAccountBalanceUseCase : IGetAccountBalanceUseCase
 		_accountRepository = accountRepository;
 	}
 
-	public async Task<GetBalanceResponse> ExecuteAsync
-	(
-		GetBalanceRequest request, string token,
-		CancellationToken cancellationToken = default
-	)
+	public async Task<GetBalanceResponse> ExecuteAsync(GetBalanceRequest request, string token, CancellationToken cancellationToken = default)
 	{
 		var tokenInfo = _jwtProvider.DecodeToken(token);
 		var balance = await _accountRepository.GetAccountBalanceAsync(tokenInfo.Email);
+
 		return new GetBalanceResponse(balance);
 	}
 }

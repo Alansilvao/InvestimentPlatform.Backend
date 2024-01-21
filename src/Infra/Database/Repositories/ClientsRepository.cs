@@ -43,13 +43,12 @@ public class ClientsRepository : IClientsRepository
 		var client = await _context.Clients.Include(c => c.Account)
 			.FirstOrDefaultAsync(client => client.Email == clientEmail);
 
-		var accountTransactions = await _context.AccountTransactions.Where(transaction => transaction.AccountId == client.Account.Id).ToListAsync();
-		//var investmentTransactions = await _context.InvestmentsHistory.Where(transaction => transaction.AccountId == account!.Id).ToListAsync();
+		var clientId = client.Account.Id;
 
 		return new GetTransactionsExtractResponse
 		{
-			AccountTransactions = accountTransactions
-            //InvestmentsTransactions = investmentTransactions.Select
+			AccountTransactions = await _context.AccountTransactions.Where(transaction => transaction.AccountId == clientId).ToListAsync(),
+            InvestmentsTransactions = await _context.InvestmentTransactions.Where(transaction => transaction.AccountId == clientId).ToListAsync()
         };
     }
 }

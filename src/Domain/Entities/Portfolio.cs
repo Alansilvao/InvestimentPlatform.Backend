@@ -1,10 +1,10 @@
 namespace Domain.Entities;
 
-public class Portfolio : BaseEntity
+public class Portfolio
 {
 	public int Id { get; set; }
 	public int AssetId { get; set; }
-	public string AccountId { get; set; }
+	public int AccountId { get; set; }
 	public string Symbol { get; set; }
 	public int Quantity { get; set; }
 	public decimal AveragePurchasePrice { get; set; }

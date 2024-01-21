@@ -1,6 +1,6 @@
 namespace Domain.Enums;
 
-public enum TransactionType
+public enum AccountTransactionType
 {
 	Deposit = 1,
 	Withdraw = 2

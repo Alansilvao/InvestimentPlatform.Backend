@@ -1,19 +1,23 @@
+using Domain.Enums;
+
 namespace Domain.Entities;
 
 public class InvestmentTransaction
 {
-    public InvestmentTransaction(int id, int assetId, decimal value, string investmentType, DateTime createdAt)
+    public InvestmentTransaction(int accountId, int assetId, InvestmentTransactionType transactionType, int quantity, decimal price)
     {
-        Id = id;
+        AccountId = accountId;
         AssetId = assetId;
-        Value = value;
-        InvestmentType = investmentType;
-        CreatedAt = createdAt;
+        TransactionType = transactionType;
+        Quantity = quantity;
+        Price = price;        
     }
 
     public int Id { get; set; }
-	public int AssetId { get; }
-	public decimal Value { get; }
-	public string InvestmentType { get; }
-	public DateTime CreatedAt { get; }
+    public int AccountId { get; set; }
+    public int AssetId { get; }
+    public InvestmentTransactionType TransactionType { get; }
+    public int Quantity { get; set; }
+    public decimal Price { get; }    
+    public DateTime CreatedAt { get; } = DateTime.Now;
 }

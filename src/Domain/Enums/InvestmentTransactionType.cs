@@ -1,6 +1,6 @@
 namespace Domain.Enums;
 
-public enum InvestmentType
+public enum InvestmentTransactionType
 {
 	Buy = 1,
 	Sell = 2

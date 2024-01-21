@@ -41,7 +41,4 @@ public class PortfolioModel
 
 	[Required]
 	public DateTime UpdatedAt { get; set; } = DateTime.Now;
-
-	public virtual AssetModel? Asset { get; set; }
-	public virtual AccountModel? Account { get; set; }
 }

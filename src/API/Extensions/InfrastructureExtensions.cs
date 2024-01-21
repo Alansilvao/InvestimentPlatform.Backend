@@ -9,8 +9,7 @@ namespace API.Extensions;
 [ExcludeFromCodeCoverage]
 public static class InfrastructureExtensions
 {
-	public static void AddInfrastructure
-		(this IServiceCollection services, IConfiguration configuration)
+	public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
 		services.AddDbContext(configuration);
 		services.AddRepositories();
@@ -29,7 +28,6 @@ public static class InfrastructureExtensions
 			.AddScoped<IClientsRepository, ClientsRepository>()
 			.AddScoped<IAccountsRepository, AccountsRepository>()
 			.AddScoped<IAssetsRepository, AssetsRepository>()
-			.AddScoped<IInvestmentsHistoryRepository, InvestmentsHistoryRepository>()
 			.AddScoped<IPortfolioRepository, PortfolioRepository>();
 	}
 }

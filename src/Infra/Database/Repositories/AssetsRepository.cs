@@ -48,7 +48,7 @@ public class AssetsRepository : IAssetsRepository
     public async Task<IEnumerable<Asset>> GetAllAsync(CancellationToken cancellationToken = default)
         => await _context.Assets.ToListAsync(cancellationToken);
 
-    public async Task<Asset?> GetBySymbolAsync(string symbol, CancellationToken cancellationToken = default)
+    public async Task<Asset> GetBySymbolAsync(string symbol, CancellationToken cancellationToken = default)
         => await _context.Assets.FirstOrDefaultAsync(it => it.Symbol == symbol, cancellationToken);
 
     public async Task<bool> PutAssetsAsync(PutAssetsRequest assets)

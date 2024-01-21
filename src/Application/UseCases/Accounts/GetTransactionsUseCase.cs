@@ -17,14 +17,11 @@ public class GetTransactionsUseCase : IGetTransactionsUseCase
 		_clientsRepository = clientsRepository;
 	}
 
-	public Task<GetTransactionsExtractResponse> ExecuteAsync
-	(
-		GetTransactionsExtractRequest request, string token,
-		CancellationToken cancellationToken = default
-	)
+	public Task<GetTransactionsExtractResponse> ExecuteAsync(GetTransactionsExtractRequest request, string token, CancellationToken cancellationToken = default)
 	{
 		var tokenInfo = _jwtProvider.DecodeToken(token);
 		var transactions = _clientsRepository.GetTransactionsExtractAsync(tokenInfo.Email);
+
 		return transactions;
 	}
 }

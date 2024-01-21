@@ -4,7 +4,7 @@ namespace Domain.Entities;
 
 public class AccountTransaction
 {
-    public AccountTransaction(int accountId, TransactionType transactionType, decimal amount)
+    public AccountTransaction(int accountId, AccountTransactionType transactionType, decimal amount)
 	{
 		AccountId = accountId;
 		TransactionType = transactionType;
@@ -13,7 +13,7 @@ public class AccountTransaction
 
     public int Id { get; }
     public int AccountId { get; }
-    public TransactionType TransactionType { get; }
+    public AccountTransactionType TransactionType { get; }
     public decimal Amount { get; }
     public DateTime CreatedAt { get; } = DateTime.Now;
 }

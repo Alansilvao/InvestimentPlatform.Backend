@@ -14,19 +14,14 @@ public class SignInUseCase : ISignInUseCase
 	private readonly IPasswordManager _passwordManager;
 	private readonly IJwtProvider _jwtProvider;
 
-	public SignInUseCase
-	(
-		IClientsRepository clientsRepository, IPasswordManager passwordManager,
-		IJwtProvider jwtProvider
-	)
+	public SignInUseCase(IClientsRepository clientsRepository, IPasswordManager passwordManager, IJwtProvider jwtProvider)
 	{
 		_clientsRepository = clientsRepository;
 		_passwordManager = passwordManager;
 		_jwtProvider = jwtProvider;
 	}
 
-	public async Task<SignInResponse> ExecuteAsync
-		(SignInRequest request, CancellationToken cancellationToken = default)
+	public async Task<SignInResponse> ExecuteAsync(SignInRequest request, CancellationToken cancellationToken = default)
 	{
 		var client = await _clientsRepository.GetByEmailAsync(request.Email);
 

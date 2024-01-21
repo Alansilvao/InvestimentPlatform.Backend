@@ -17,8 +17,7 @@ public class DepositUseCase : IDepositUseCase
 		_accountRepository = accountRepository;
 	}
 
-	public async Task<DepositResponse> ExecuteAsync
-		(DepositRequest request, string token, CancellationToken cancellationToken = default)
+	public async Task<DepositResponse> ExecuteAsync(DepositRequest request, string token, CancellationToken cancellationToken = default)
 	{
 		var tokenInfo = _jwtProvider.DecodeToken(token);
 		await _accountRepository.DepositAsync(tokenInfo.Email, request.Value);

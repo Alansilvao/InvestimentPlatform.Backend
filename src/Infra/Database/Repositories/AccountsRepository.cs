@@ -48,7 +48,7 @@ public class AccountsRepository : IAccountsRepository
 		client.Account.UpdatedAt = DateTime.Now;
         
 		_context.Accounts.Update(client.Account);
-		_context.AccountTransactions.Add(new(client.Account.Id, TransactionType.Deposit, amount));
+		_context.AccountTransactions.Add(new(client.Account.Id, AccountTransactionType.Deposit, amount));
 
 		return await _context.SaveChangesAsync() > 0;
 	}
@@ -68,7 +68,7 @@ public class AccountsRepository : IAccountsRepository
         client.Account.UpdatedAt = DateTime.Now;
 
         _context.Accounts.Update(client.Account);
-        _context.AccountTransactions.Add(new(client.Account.Id, TransactionType.Withdraw, amount));
+        _context.AccountTransactions.Add(new(client.Account.Id, AccountTransactionType.Withdraw, amount));
 
 		return await _context.SaveChangesAsync() > 0;
 	}
