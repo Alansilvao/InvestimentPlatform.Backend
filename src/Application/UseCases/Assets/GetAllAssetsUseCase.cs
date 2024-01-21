@@ -14,10 +14,10 @@ public class GetAllAssetsUseCase : IGetAllAssetsUseCase
 		_assetsRepository = assetsRepository;
 	}
 
-	public async Task<GetAllAssetsResponse> ExecuteAsync
-		(GetAllAssetsRequest request, CancellationToken cancellationToken = default)
+	public async Task<GetAllAssetsResponse> ExecuteAsync(GetAllAssetsRequest request, CancellationToken cancellationToken = default)
 	{
 		var assets = await _assetsRepository.GetAllAsync(cancellationToken);
-		return new GetAllAssetsResponse(assets);
+
+		return new GetAllAssetsResponse(assets.OrderByDescending(it => it.MarketValue));
 	}
 }

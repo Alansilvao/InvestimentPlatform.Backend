@@ -24,10 +24,11 @@ public class AssetsRepository : IAssetsRepository
         if (asset is not null)
             throw new HttpStatusException(StatusCodes.Status400BadRequest, "Existing asset symbol");
 
-        var newAsset = new Asset(1, symbol, name, availableQuantity, price);
+        var newAsset = new Asset(symbol, name, availableQuantity, price);
 
         await _context.AddAsync(newAsset);
         await _context.SaveChangesAsync();
+
         return true;
     }
 
@@ -40,6 +41,7 @@ public class AssetsRepository : IAssetsRepository
 
         _context.Remove(asset);
         await _context.SaveChangesAsync();
+
         return true;
     }
 
@@ -51,26 +53,19 @@ public class AssetsRepository : IAssetsRepository
 
     public async Task<bool> PutAssetsAsync(PutAssetsRequest assets)
     {
-        try
-        {
-            var asset = await _context.Assets.FirstOrDefaultAsync(c => c.Id == assets.Id);
+        var asset = await _context.Assets.FirstOrDefaultAsync(c => c.Id == assets.Id);
 
-            if (asset is null)
-                throw new HttpStatusException(StatusCodes.Status404NotFound, "Asset not found");
+        if (asset is null)
+            throw new HttpStatusException(StatusCodes.Status404NotFound, "Asset not found");
 
-            asset.Symbol = assets.Symbol;
-            asset.Name = assets.Name;
-            asset.AvailableQuantity = assets.AvailableQuantity;
-            asset.Price = assets.Price;
+        asset.Symbol = assets.Symbol;
+        asset.Name = assets.Name;
+        asset.AvailableQuantity = assets.AvailableQuantity;
+        asset.Price = assets.Price;
 
-            _context.Update(asset);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        catch (Exception ex)
-        {
+        _context.Update(asset);
+        await _context.SaveChangesAsync();
 
-            throw;
-        }
+        return true;
     }
 }
