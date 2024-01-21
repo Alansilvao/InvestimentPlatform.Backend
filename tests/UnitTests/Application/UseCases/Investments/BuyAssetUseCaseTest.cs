@@ -63,8 +63,7 @@ public class BuyAssetUseCaseTest
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_assetsRepositoryMock.Setup
-				(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
+		_assetsRepositoryMock.Setup(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
 			.ReturnsAsync(expectedAsset);
 
 		_clientsRepositoryMock.Setup(x => x.GetClientAccountAsync(_tokenInfo.Email))
@@ -86,8 +85,7 @@ public class BuyAssetUseCaseTest
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_assetsRepositoryMock.Setup
-				(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
+		_assetsRepositoryMock.Setup(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
 			.ReturnsAsync((Asset)null);
 
 		Func<Task> act = async () => await _useCase.ExecuteAsync(request, string.Empty);
@@ -130,8 +128,7 @@ public class BuyAssetUseCaseTest
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_assetsRepositoryMock.Setup
-				(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
+		_assetsRepositoryMock.Setup(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
 			.ThrowsAsync(new Exception("Error"));
 
 		Func<Task> act = async () => await _useCase.ExecuteAsync(request, string.Empty);

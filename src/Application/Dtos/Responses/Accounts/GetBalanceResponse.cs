@@ -2,10 +2,10 @@ namespace Application.Dtos.Responses.Accounts;
 
 public class GetBalanceResponse
 {
-	public decimal AvailableBalance { get; set; }
+	public decimal Balance { get; set; }
 
-	public GetBalanceResponse(decimal availableBalance)
+	public GetBalanceResponse(decimal balance)
 	{
-		AvailableBalance = availableBalance;
+		Balance = balance;
 	}
 }

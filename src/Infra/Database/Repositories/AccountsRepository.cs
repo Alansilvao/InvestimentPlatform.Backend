@@ -1,6 +1,10 @@
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
+using Domain.Enums;
 using Infra.Database.Context;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.Repositories;
 
@@ -23,52 +27,36 @@ public class AccountsRepository : IAccountsRepository
 
 	public async Task<decimal> GetAccountBalanceAsync(string clientEmail)
 	{
-        return await Task.FromResult(1);
-		/*
-        var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
-			(client => client.Email == clientEmail);
+        var client = await _context.Clients.Include(c => c.Account)
+			.FirstOrDefaultAsync(client => client.Email == clientEmail);
 
 		if (client is null)
 			throw new HttpStatusException(StatusCodes.Status404NotFound, "Account not found");
-		return client.Account!.Balance;
 
-		*/
+		return client.Account.Balance;
 	}
 
 	public async Task<bool> DepositAsync(string clientEmail, decimal amount)
 	{
-		return await Task.FromResult(true);
-
-		/*
-		var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
-			(client => client.Email == clientEmail);
+		var client = await _context.Clients.Include(c => c.Account)
+			.FirstOrDefaultAsync(client => client.Email == clientEmail);
 
 		if (client is null)
 			throw new HttpStatusException(StatusCodes.Status404NotFound, "Account not found");
 
-		client.Account!.Balance += amount;
+		client.Account.Balance += amount;
+		client.Account.UpdatedAt = DateTime.Now;
+        
 		_context.Accounts.Update(client.Account);
+		_context.AccountTransactions.Add(new(client.Account.Id, TransactionType.Deposit, amount));
 
-		_context.TransactionHistory.Add
-		(
-			new TransactionHistoryModel
-			{
-				AccountId = client.Account.Id,
-				Value = amount,
-				TransactionType = nameof(TransactionType.Deposit)
-			}
-		);
 		return await _context.SaveChangesAsync() > 0;
-		*/
 	}
 
 	public async Task<bool> WithdrawAsync(string clientEmail, int amount)
 	{
-        return await Task.FromResult(true);
-
-		/*
-        var client = await _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
-			(client => client.Email == clientEmail);
+        var client = await _context.Clients.Include(c => c.Account)
+			.FirstOrDefaultAsync(client => client.Email == clientEmail);
 
 		if (client is null)
 			throw new HttpStatusException(StatusCodes.Status404NotFound, "Account not found");
@@ -76,19 +64,12 @@ public class AccountsRepository : IAccountsRepository
 		if (client.Account!.Balance < amount)
 			throw new HttpStatusException(StatusCodes.Status400BadRequest, "Insufficient funds");
 
-		client.Account!.Balance -= amount;
-		_context.Accounts.Update(client.Account);
+		client.Account.Balance -= amount;
+        client.Account.UpdatedAt = DateTime.Now;
 
-		_context.TransactionHistory.Add
-		(
-			new TransactionHistoryModel
-			{
-				AccountId = client.Account.Id,
-				Value = amount,
-				TransactionType = nameof(TransactionType.Withdraw)
-			}
-		);
+        _context.Accounts.Update(client.Account);
+        _context.AccountTransactions.Add(new(client.Account.Id, TransactionType.Withdraw, amount));
+
 		return await _context.SaveChangesAsync() > 0;
-		*/
 	}
 }

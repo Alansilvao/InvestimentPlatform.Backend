@@ -46,7 +46,7 @@ public class GetAccountBalanceUseCaseTest
 
 		var output = await _useCase.ExecuteAsync(input, string.Empty);
 
-		output.AvailableBalance.Should().Be(accountBalance);
+		output.Balance.Should().Be(accountBalance);
 	}
 
 	[Fact(DisplayName = "Should throw if repository throws Account Not Found")]

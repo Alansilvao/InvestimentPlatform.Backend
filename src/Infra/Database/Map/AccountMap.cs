@@ -23,5 +23,13 @@ public class AccountMap : IEntityTypeConfiguration<Account>
             .HasColumnName("VAL_SALDO")
             .HasPrecision(18, 2)
             .IsRequired();
+
+        builder.Property(x => x.CreatedAt)
+           .HasColumnName("DAT_INC")
+           .IsRequired();
+
+        builder.Property(x => x.UpdatedAt)
+           .HasColumnName("DAT_ALT")
+           .IsRequired();
     }
 }

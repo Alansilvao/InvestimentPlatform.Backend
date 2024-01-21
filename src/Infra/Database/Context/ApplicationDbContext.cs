@@ -13,16 +13,17 @@ public class ApplicationDbContext : DbContext
 
 	public DbSet<Client> Clients { get; set; } = null!;
 	public DbSet<Account> Accounts { get; set; } = null!;
-	public DbSet<Asset> Assets { get; set; } = null!;
+    public DbSet<AccountTransaction> AccountTransactions { get; set; } = null!;
+    public DbSet<Asset> Assets { get; set; } = null!;
 	public DbSet<PortfolioModel> Portfolios { get; set; } = null!;
 	public DbSet<InvestmentsHistoryModel> InvestmentsHistory { get; set; } = null!;
-	public DbSet<TransactionHistoryModel> TransactionHistory { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
         modelBuilder.ApplyConfiguration(new AssetMap());
         modelBuilder.ApplyConfiguration(new ClientMap());
         modelBuilder.ApplyConfiguration(new AccountMap());
+        modelBuilder.ApplyConfiguration(new AccountTransactionMap());
 
         base.OnModelCreating(modelBuilder);       
 	}

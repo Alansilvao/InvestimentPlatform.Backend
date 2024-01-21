@@ -7,11 +7,7 @@ public class Client
 	public string Email { get; }
 	public string Password { get; }
 
-	//public Account? Account { get; set; }
-
- //   public Client()
- //   {			
- //   }
+    public virtual Account Account { get; set; }
 
     public Client(string name, string email, string password)
 	{
