@@ -52,8 +52,13 @@ public class BuyAssetUseCaseTest
 		var expectedAsset = new AutoFaker<Asset>()
 			.RuleFor(x => x.Symbol, request.AssetSymbol)
 			.Generate();
-		var clientAccount = new Domain.Entities.Account
-			(Guid.NewGuid().ToString(), expectedAsset.Price * request.Quantity * 2);
+
+        var clientAccount = new AutoFaker<Account>()
+            .RuleFor(x => x.Balance, expectedAsset.Price * request.Quantity * 2)
+            .Generate();
+
+   //     var clientAccount = new Domain.Entities.Account
+			//(Guid.NewGuid().ToString(), expectedAsset.Price * request.Quantity * 2);
 
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
@@ -96,7 +101,10 @@ public class BuyAssetUseCaseTest
 	{
 		var request = new AutoFaker<BuyAssetRequest>().Generate();
 		var asset = new AutoFaker<Asset>().Generate();
-		var clientAccount = new Domain.Entities.Account(Guid.NewGuid().ToString(), 0);
+
+        var clientAccount = new AutoFaker<Account>()
+           .RuleFor(x => x.Balance, 0)
+           .Generate();
 
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);

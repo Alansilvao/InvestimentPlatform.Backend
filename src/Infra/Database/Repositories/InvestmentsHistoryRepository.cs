@@ -14,8 +14,7 @@ public class InvestmentsHistoryRepository : IInvestmentsHistoryRepository
 		_context = context;
 	}
 
-	public async Task<bool> AddTransaction
-		(Asset asset, int purchasedQuantity, string accountId)
+	public async Task<bool> AddTransaction(Asset asset, int purchasedQuantity, int accountId)
 	{
 		var transaction = new InvestmentsHistoryModel
 		{

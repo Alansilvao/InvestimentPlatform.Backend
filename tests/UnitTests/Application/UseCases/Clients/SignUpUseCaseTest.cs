@@ -92,7 +92,7 @@ public class SignUpUseCaseTest
 		_clientRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<Client>()))
 			.ReturnsAsync(true);
 
-		_accountRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<Domain.Entities.Account>()))
+		_accountRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<Account>()))
 			.ReturnsAsync(false);
 
 		Func<Task> act = async () => await _useCase.ExecuteAsync(input);

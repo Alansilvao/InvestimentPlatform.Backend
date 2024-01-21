@@ -1,60 +1,62 @@
-using Application.Dtos.Requests.Account;
+using Application.Dtos.Requests.Accounts;
+using Application.Dtos.Responses.Accounts;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Interfaces.UseCases;
-using Application.UseCases.Account;
+using Application.UseCases.Accounts;
 using AutoBogus;
 using FluentAssertions;
 using Moq;
 
-namespace UnitTests.Application.UseCases.Account;
+namespace UnitTests.Application.UseCases.Accounts;
 
-public class DepositUseCaseTest
+public class GetTransactionsUseCaseTest
 {
 	private readonly Mock<IJwtProvider> _jwtProviderMock;
-	private readonly Mock<IAccountsRepository> _accountRepositoryMock;
-	private readonly IDepositUseCase _useCase;
+	private readonly Mock<IClientsRepository> _clientsRepositoryMock;
+	private readonly IGetTransactionsUseCase _useCase;
 	private readonly TokenInfo _tokenInfo;
 
-	public DepositUseCaseTest
-		()
+	public GetTransactionsUseCaseTest()
 	{
-		_accountRepositoryMock = new Mock<IAccountsRepository>();
+		_clientsRepositoryMock = new Mock<IClientsRepository>();
 		_jwtProviderMock = new Mock<IJwtProvider>();
-		_useCase = new DepositUseCase(_jwtProviderMock.Object, _accountRepositoryMock.Object);
+		_useCase = new GetTransactionsUseCase
+			(_jwtProviderMock.Object, _clientsRepositoryMock.Object);
 
 		_tokenInfo = new TokenInfo
 		{
-			Name = "Teste",
-			Email = "teste@test.com.br"
+			Name = "Test",
+			Email = "test@test.com"
 		};
 	}
 
-	[Fact(DisplayName = "Should deposit money in account")]
-	public async Task ShouldDepositMoneyInAccount()
+	[Fact(DisplayName = "Should get transactions extract")]
+	public async Task ShouldGetTransactionsExtract()
 	{
-		var input = new AutoFaker<DepositRequest>().Generate();
+		var input = new AutoFaker<GetTransactionsExtractRequest>().Generate();
+		var expectedResponse = new AutoFaker<GetTransactionsExtractResponse>().Generate();
 
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_accountRepositoryMock.Setup(x => x.DepositAsync(_tokenInfo.Email, input.Value))
-			.ReturnsAsync(true);
+		_clientsRepositoryMock.Setup(x => x.GetTransactionsExtractAsync(_tokenInfo.Email))
+			.ReturnsAsync(expectedResponse);
 
 		var output = await _useCase.ExecuteAsync(input, string.Empty);
 
-		output.Message.Should().Be("Deposit successfully");
+		output.Should().BeEquivalentTo(expectedResponse);
 	}
 
 	[Fact(DisplayName = "Should throw if repository throws")]
 	public async Task ShouldThrowIfRepositoryThrows()
 	{
-		var input = new AutoFaker<DepositRequest>().Generate();
+		var input = new AutoFaker<GetTransactionsExtractRequest>().Generate();
 
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_accountRepositoryMock.Setup(x => x.DepositAsync(_tokenInfo.Email, input.Value))
+		_clientsRepositoryMock.Setup(x => x.GetTransactionsExtractAsync(_tokenInfo.Email))
 			.ThrowsAsync(new Exception("Error"));
 
 		Func<Task> act = async () => await _useCase.ExecuteAsync(input, string.Empty);
@@ -65,7 +67,7 @@ public class DepositUseCaseTest
 	[Fact(DisplayName = "Should throw if Decode Token throws")]
 	public async Task ShouldThrowIfDecodeTokenThrows()
 	{
-		var input = new AutoFaker<DepositRequest>().Generate();
+		var input = new AutoFaker<GetTransactionsExtractRequest>().Generate();
 
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Throws(new Exception("Error"));

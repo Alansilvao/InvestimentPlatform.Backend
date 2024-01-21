@@ -1,15 +1,15 @@
-using Application.Dtos.Requests.Account;
+using Application.Dtos.Requests.Accounts;
 using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Interfaces.UseCases;
-using Application.UseCases.Account;
+using Application.UseCases.Accounts;
 using AutoBogus;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
 
-namespace UnitTests.Application.UseCases.Account;
+namespace UnitTests.Application.UseCases.Accounts;
 
 public class GetAccountBalanceUseCaseTest
 {

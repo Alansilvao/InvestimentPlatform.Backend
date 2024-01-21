@@ -9,6 +9,8 @@ using Domain.Entities;
 using FluentAssertions;
 using Moq;
 
+namespace UnitTests.Application.UseCases.Clients;
+
 public class SignInUseCaseTest
 {
 	private readonly Mock<IClientsRepository> _clientsRepositoryMock;
@@ -21,8 +23,7 @@ public class SignInUseCaseTest
 		_clientsRepositoryMock = new Mock<IClientsRepository>();
 		_passwordManagerMock = new Mock<IPasswordManager>();
 		_jwtProviderMock = new Mock<IJwtProvider>();
-		_useCase = new SignInUseCase
-			(_clientsRepositoryMock.Object, _passwordManagerMock.Object, _jwtProviderMock.Object);
+		_useCase = new SignInUseCase(_clientsRepositoryMock.Object, _passwordManagerMock.Object, _jwtProviderMock.Object);
 	}
 
 	[Fact(DisplayName = "Should sign in successfully")]

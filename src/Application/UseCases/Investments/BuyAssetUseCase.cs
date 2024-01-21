@@ -28,26 +28,22 @@ public class BuyAssetUseCase : IBuyAssetUseCase
 		_portfolioRepository = portfolioRepository;
 	}
 
-	public async Task<BuyAssetResponse> ExecuteAsync
-		(BuyAssetRequest request, string token, CancellationToken cancellationToken = default)
+	public async Task<BuyAssetResponse> ExecuteAsync(BuyAssetRequest request, string token, CancellationToken cancellationToken = default)
 	{
 		var tokenInfo = _jwtProvider.DecodeToken(token);
 		var clientAccount = await _clientsRepository.GetClientAccountAsync(tokenInfo.Email);
+		var wantedAsset = await _assetsRepository.GetBySymbolAsync(request.AssetSymbol, cancellationToken);
 
-		var wantedAsset = await _assetsRepository.GetBySymbolAsync
-			(request.AssetSymbol, cancellationToken);
 		if (wantedAsset is null)
 			throw new HttpStatusException(StatusCodes.Status404NotFound, "Asset not found");
 
 		var wantedAssetsTotalPrice = wantedAsset.Price * request.Quantity;
-		if (clientAccount!.Balance < 0 || clientAccount.Balance < wantedAssetsTotalPrice)
-			throw new HttpStatusException
-				(StatusCodes.Status400BadRequest, "Insufficient Balance");
 
-		await _portfolioRepository.IncrementPortfolioAsync
-			(wantedAsset, request.Quantity, clientAccount.Id);
+		if (clientAccount!.Balance <= 0 || clientAccount.Balance < wantedAssetsTotalPrice)
+			throw new HttpStatusException(StatusCodes.Status400BadRequest, "Insufficient Balance");
 
-		return new BuyAssetResponse
-			(wantedAsset.Symbol, request.Quantity, wantedAsset.Price, wantedAssetsTotalPrice);
+		await _portfolioRepository.IncrementPortfolioAsync(wantedAsset, request.Quantity, clientAccount.Id);
+
+		return new BuyAssetResponse(wantedAsset.Symbol, request.Quantity, wantedAsset.Price, wantedAssetsTotalPrice);
 	}
 }

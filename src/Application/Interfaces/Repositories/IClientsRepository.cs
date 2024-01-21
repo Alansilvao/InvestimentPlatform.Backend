@@ -1,4 +1,4 @@
-using Application.Dtos.Responses.Account;
+using Application.Dtos.Responses.Accounts;
 using Domain.Entities;
 
 namespace Application.Interfaces.Repositories;

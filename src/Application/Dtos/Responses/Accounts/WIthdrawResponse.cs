@@ -1,4 +1,4 @@
-namespace Application.Dtos.Responses.Account;
+namespace Application.Dtos.Responses.Accounts;
 
 public class WithdrawResponse
 {

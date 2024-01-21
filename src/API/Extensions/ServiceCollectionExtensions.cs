@@ -3,7 +3,7 @@ using System.Text;
 using API.OptionsSetup;
 using Application.Interfaces.Services;
 using Application.Interfaces.UseCases;
-using Application.UseCases.Account;
+using Application.UseCases.Accounts;
 using Application.UseCases.Assets;
 using Application.UseCases.Investments;
 using Application.UseCases.Login;

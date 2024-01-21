@@ -12,7 +12,7 @@ public class PortfolioModel
 	public int AssetId { get; set; }
 
 	[Required]
-	public string AccountId { get; set; } = null!;
+	public int AccountId { get; set; }
 
 	[Required]
 	[StringLength(10)]

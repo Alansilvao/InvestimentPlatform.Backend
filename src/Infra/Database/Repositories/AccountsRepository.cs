@@ -1,10 +1,6 @@
-using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Infra.Database.Context;
-using Infra.Database.models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.Repositories;
 
@@ -19,17 +15,9 @@ public class AccountsRepository : IAccountsRepository
 
 	public async Task<bool> CreateAsync(Account account)
 	{
-		var accountModel = new AccountModel
-		{
-			Id = account.Id,
-			ClientId = account.ClientId,
-			Balance = account.Balance,
-			UpdatedAt = DateTime.Now
-		};
-
-		if (await _context.Accounts.AddAsync(accountModel) is null)
-			return false;
+		await _context.Accounts.AddAsync(account);
 		await _context.SaveChangesAsync();
+
 		return true;
 	}
 

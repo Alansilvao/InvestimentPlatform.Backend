@@ -12,7 +12,7 @@ public class ApplicationDbContext : DbContext
 	}
 
 	public DbSet<Client> Clients { get; set; } = null!;
-	public DbSet<AccountModel> Accounts { get; set; } = null!;
+	public DbSet<Account> Accounts { get; set; } = null!;
 	public DbSet<Asset> Assets { get; set; } = null!;
 	public DbSet<PortfolioModel> Portfolios { get; set; } = null!;
 	public DbSet<InvestmentsHistoryModel> InvestmentsHistory { get; set; } = null!;

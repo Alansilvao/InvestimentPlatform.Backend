@@ -1,4 +1,3 @@
-using Application.Dtos.Requests;
 using Application.Dtos.Requests.Clients;
 using Application.Exceptions;
 using Application.Interfaces.Repositories;
@@ -15,36 +14,28 @@ public class SignUpUseCase : ISignUpUseCase
 	private readonly IClientsRepository _clientRepository;
 	private readonly IPasswordManager _passwordManager;
 
-	public SignUpUseCase
-	(
-		IAccountsRepository accountRepository, IClientsRepository clientRepository,
-		IPasswordManager passwordManager
-	)
+	public SignUpUseCase(IAccountsRepository accountRepository, IClientsRepository clientRepository, IPasswordManager passwordManager)
 	{
 		_accountRepository = accountRepository;
 		_clientRepository = clientRepository;
 		_passwordManager = passwordManager;
 	}
 
-	public async Task<Task> ExecuteAsync
-		(SignUpRequest request, CancellationToken cancellationToken = default)
+	public async Task<Task> ExecuteAsync(SignUpRequest request, CancellationToken cancellationToken = default)
 	{
 		var newClient = new Client
 			(request.Name, request.Email, _passwordManager.Hash(request.Password));
 
 		if (await _clientRepository.GetByEmailAsync(newClient.Email) is not null)
-			throw new HttpStatusException
-				(StatusCodes.Status409Conflict, "Email already in use");
+			throw new HttpStatusException(StatusCodes.Status409Conflict, "Email already in use");
 
 		if (!await _clientRepository.CreateAsync(newClient))
-			throw new HttpStatusException
-				(StatusCodes.Status422UnprocessableEntity, "Failed to create Account");
+			throw new HttpStatusException(StatusCodes.Status422UnprocessableEntity, "Failed to create Account");
 
-		//var account = new Domain.Entities.Account(newClient.Id, 0);
+		var account = new Account(newClient.Id, 0);
 
-		//if (!await _accountRepository.CreateAsync(account))
-		//	throw new HttpStatusException
-		//		(StatusCodes.Status422UnprocessableEntity, "Failed to create Account");
+		if (!await _accountRepository.CreateAsync(account))
+			throw new HttpStatusException(StatusCodes.Status422UnprocessableEntity, "Failed to create Account");
 
 		return Task.CompletedTask;
 	}

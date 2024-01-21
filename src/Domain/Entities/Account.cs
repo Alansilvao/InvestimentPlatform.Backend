@@ -1,23 +1,14 @@
 namespace Domain.Entities;
 
-public class Account : BaseEntity
+public class Account
 {
-	public string ClientId { get; }
-	public decimal Balance { get; }
+    public int Id { get; }
+    public int ClientId { get; set; }
+	public decimal Balance { get; set; }
+    public DateTime CreatedAt { get; } = DateTime.Now;
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-	public Account
-	(
-		string clientId, decimal balance
-	)
-	{
-		ClientId = clientId;
-		Balance = balance;
-	}
-
-	public Account
-	(
-		string id, string clientId, decimal balance
-	) : base(id)
+    public Account(int clientId, decimal balance)
 	{
 		ClientId = clientId;
 		Balance = balance;

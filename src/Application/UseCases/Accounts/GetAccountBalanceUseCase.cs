@@ -1,10 +1,10 @@
-using Application.Dtos.Requests.Account;
-using Application.Dtos.Responses.Account;
+using Application.Dtos.Requests.Accounts;
+using Application.Dtos.Responses.Accounts;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Interfaces.UseCases;
 
-namespace Application.UseCases.Account;
+namespace Application.UseCases.Accounts;
 
 public class GetAccountBalanceUseCase : IGetAccountBalanceUseCase
 {

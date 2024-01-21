@@ -9,7 +9,7 @@ public class InvestmentsHistoryModel
 	public int Id { get; set; }
 
 	[Required]
-	public string AccountId { get; set; } = null!;
+	public int AccountId { get; set; }
 
 	[Required]
 	public int AssetId { get; set; }

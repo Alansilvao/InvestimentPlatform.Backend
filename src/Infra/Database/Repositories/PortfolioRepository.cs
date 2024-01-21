@@ -16,8 +16,7 @@ public class PortfolioRepository : IPortfolioRepository
 		_context = context;
 	}
 
-	public async Task<bool> IncrementPortfolioAsync
-		(Asset asset, int purchasedQuantity, string accountId)
+	public async Task<bool> IncrementPortfolioAsync(Asset asset, int purchasedQuantity, int accountId)
 	{
 		var portfolio = await _context.Portfolios.FirstOrDefaultAsync
 		(
@@ -48,8 +47,7 @@ public class PortfolioRepository : IPortfolioRepository
 		return await UpdatePortfolioAsync(portfolio, asset, purchasedQuantity);
 	}
 
-	public async Task<bool> DecrementPortfolioAsync
-		(Asset asset, int soldQuantity, string accountId)
+	public async Task<bool> DecrementPortfolioAsync(Asset asset, int soldQuantity, int accountId)
 	{
 		var assertPortfolio = await _context.Portfolios.FirstOrDefaultAsync
 		(
@@ -106,8 +104,7 @@ public class PortfolioRepository : IPortfolioRepository
 		return await _context.SaveChangesAsync() > 0;
 	}
 
-	private async Task<bool> InsertPortfolioAsync
-		(Asset asset, int purchasedQuantity, string accountId)
+	private async Task<bool> InsertPortfolioAsync(Asset asset, int purchasedQuantity, int accountId)
 	{
 		var portfolio = new PortfolioModel
 		{

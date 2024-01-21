@@ -1,6 +1,6 @@
 using Domain.Entities;
 
-namespace Application.Dtos.Responses.Account;
+namespace Application.Dtos.Responses.Accounts;
 
 public class GetTransactionsExtractResponse
 {

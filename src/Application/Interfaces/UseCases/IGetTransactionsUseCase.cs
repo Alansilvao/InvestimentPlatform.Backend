@@ -1,6 +1,6 @@
 using Application.Commons.Interfaces;
-using Application.Dtos.Requests.Account;
-using Application.Dtos.Responses.Account;
+using Application.Dtos.Requests.Accounts;
+using Application.Dtos.Responses.Accounts;
 
 namespace Application.Interfaces.UseCases;
 
