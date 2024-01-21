@@ -63,8 +63,6 @@ public class AssetsRepository : IAssetsRepository
             asset.AvailableQuantity = assets.AvailableQuantity;
             asset.Price = assets.Price;
 
-            var updateAsset = new Asset(assets.Id, assets.Symbol, assets.Name, assets.AvailableQuantity, assets.Price);
-
             _context.Update(asset);
             await _context.SaveChangesAsync();
             return true;

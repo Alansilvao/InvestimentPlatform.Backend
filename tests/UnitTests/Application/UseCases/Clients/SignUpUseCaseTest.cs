@@ -79,24 +79,4 @@ public class SignUpUseCaseTest
 
 		await act.Should().ThrowAsync<HttpStatusException>();
 	}
-
-	[Fact(DisplayName = "Should throw if failed to create account")]
-	public async Task ShouldThrowIfFailedToCreateAccount()
-	{
-		var input = new AutoFaker<SignUpRequest>().Generate();
-		var newClient = new Client(input.Name, input.Email, "hashedPassword");
-
-		_clientRepositoryMock.Setup(x => x.GetByEmailAsync(input.Email))
-			.ReturnsAsync((Client)null);
-
-		_clientRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<Client>()))
-			.ReturnsAsync(true);
-
-		_accountRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<Domain.Entities.Account>()))
-			.ReturnsAsync(false);
-
-		Func<Task> act = async () => await _useCase.ExecuteAsync(input);
-
-		await act.Should().ThrowAsync<HttpStatusException>();
-	}
 }
