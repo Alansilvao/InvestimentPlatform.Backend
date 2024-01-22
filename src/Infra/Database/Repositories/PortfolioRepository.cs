@@ -3,7 +3,6 @@ using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Domain.Enums;
 using Infra.Database.Context;
-using Infra.Database.models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.Repositories;
@@ -23,7 +22,7 @@ public class PortfolioRepository : IPortfolioRepository
 
 		var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
 
-		account.Balance += purchasedQuantity * asset.Price;
+		account.Balance -= purchasedQuantity * asset.Price;
 
 		await _context.InvestmentTransactions.AddAsync(new(accountId, asset.Id, InvestmentTransactionType.Buy, purchasedQuantity, asset.Price));
 
@@ -61,7 +60,7 @@ public class PortfolioRepository : IPortfolioRepository
 		}
 	}
 
-	private async Task<bool> UpdatePortfolioAsync(PortfolioModel portfolio, Asset asset, int purchasedQuantity)
+	private async Task<bool> UpdatePortfolioAsync(Portfolio portfolio, Asset asset, int purchasedQuantity)
 	{
 		portfolio.Quantity += purchasedQuantity;
 		portfolio.AcquisitionValue += purchasedQuantity * asset.Price;
@@ -78,7 +77,7 @@ public class PortfolioRepository : IPortfolioRepository
 
 	private async Task<bool> InsertPortfolioAsync(Asset asset, int purchasedQuantity, int accountId)
 	{
-		var portfolio = new PortfolioModel
+		var portfolio = new Portfolio
 		{
 			AccountId = accountId,
 			AssetId = asset.Id,
@@ -100,26 +99,8 @@ public class PortfolioRepository : IPortfolioRepository
 		var account = _context.Clients.Include(c => c.Account)
 			.FirstOrDefaultAsync(client => client.Email == clientEmail).Result.Account;
 
-		var portfolios = await _context.Portfolios.Where(p => p.AccountId == account!.Id).ToListAsync();
+		var portfolios = await _context.Portfolios.Where(p => p.AccountId == account.Id).ToListAsync();
 
-		return new GetPortfolioResponse
-		(
-			portfolios.Select
-			(
-				p => new Portfolio
-				{
-					AssetId = p.AssetId,
-					Quantity = p.Quantity,
-					Symbol = p.Symbol,
-					AveragePurchasePrice = p.AveragePurchasePrice,
-					AcquisitionValue = p.AcquisitionValue,
-					CurrentValue = p.CurrentValue,
-					ProfitabilityPercentage = p.ProfitabilityPercentage,
-					ProfitabilityValue = p.ProfitabilityValue,
-					Id = p.Id,
-					AccountId = p.AccountId
-				}
-			).ToList()
-		);
+		return new GetPortfolioResponse(portfolios);
 	}
 }

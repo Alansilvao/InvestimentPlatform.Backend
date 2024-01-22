@@ -30,19 +30,22 @@ public class SellAssetUseCase : ISellAssetUseCase
 		_portfolioRepository = portfolioRepository;
 	}
 
-	public async Task<SellAssetResponse> ExecuteAsync
-		(SellAssetRequest request, string token, CancellationToken cancellationToken = default)
+	public async Task<SellAssetResponse> ExecuteAsync(SellAssetRequest request, string token, CancellationToken cancellationToken = default)
 	{
 		var tokenInfo = _jwtProvider.DecodeToken(token);
 		var clientAccount = await _clientsRepository.GetClientAccountAsync(tokenInfo.Email);
 
 		var assetToSell = await _assetsRepository.GetBySymbolAsync
 			(request.AssetSymbol, cancellationToken);
+
 		if (assetToSell is null)
 			throw new HttpStatusException(StatusCodes.Status404NotFound, "Asset not found");
 
-		await _portfolioRepository.DecrementPortfolioAsync
-			(assetToSell, request.Quantity, clientAccount!.Id);
+        var portfolioResponse = await _portfolioRepository.GetPortfolioAsync(tokenInfo.Email);
+		if(!portfolioResponse.Portfolios.Any(it => it.AssetId == assetToSell.Id))
+            throw new HttpStatusException(StatusCodes.Status403Forbidden, "Asset not found in portfolio");
+
+        await _portfolioRepository.DecrementPortfolioAsync(assetToSell, request.Quantity, clientAccount.Id);
 
 		return new SellAssetResponse
 		(

@@ -1,4 +1,5 @@
 using Application.Dtos.Requests.Investments;
+using Application.Dtos.Responses.Investments;
 using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
@@ -46,20 +47,30 @@ public class SellAssetUseCaseTest
 	{
 		var request = new AutoFaker<SellAssetRequest>().Generate();
 		var expectedAsset = new AutoFaker<Asset>().Generate();
-		var clientAccount = new AutoFaker<Domain.Entities.Account>().Generate();
+		var clientAccount = new AutoFaker<Account>().Generate();
 
-		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
+		var portfolios = new[]
+		{
+			new Portfolio 
+			{ 
+				AssetId = expectedAsset.Id,
+				Symbol = expectedAsset.Symbol
+			}
+		};
+
+        _jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_assetsRepositoryMock.Setup
-				(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
+		_assetsRepositoryMock.Setup(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
 			.ReturnsAsync(expectedAsset);
 
 		_clientsRepositoryMock.Setup(x => x.GetClientAccountAsync(_tokenInfo.Email))
 			.ReturnsAsync(clientAccount);
 
-		_portfolioRepositoryMock.Setup
-				(x => x.DecrementPortfolioAsync(expectedAsset, request.Quantity, clientAccount.Id))
+        _portfolioRepositoryMock.Setup(x => x.GetPortfolioAsync(_tokenInfo.Email))
+            .ReturnsAsync(new GetPortfolioResponse(portfolios));
+
+        _portfolioRepositoryMock.Setup(x => x.DecrementPortfolioAsync(expectedAsset, request.Quantity, clientAccount.Id))
 			.ReturnsAsync(true);
 
 		var output = await _useCase.ExecuteAsync(request, string.Empty);
@@ -78,8 +89,7 @@ public class SellAssetUseCaseTest
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_assetsRepositoryMock.Setup
-				(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
+		_assetsRepositoryMock.Setup(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
 			.ReturnsAsync((Asset)null!);
 
 		Func<Task> act = async () => await _useCase.ExecuteAsync(request, string.Empty);
@@ -96,8 +106,7 @@ public class SellAssetUseCaseTest
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_assetsRepositoryMock.Setup
-				(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
+		_assetsRepositoryMock.Setup(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
 			.ThrowsAsync(new Exception("Error"));
 
 		Func<Task> act = async () => await _useCase.ExecuteAsync(request, string.Empty);
@@ -115,20 +124,13 @@ public class SellAssetUseCaseTest
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_assetsRepositoryMock.Setup
-				(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
+		_assetsRepositoryMock.Setup(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
 			.ReturnsAsync(expectedAsset);
 
 		_clientsRepositoryMock.Setup(x => x.GetClientAccountAsync(_tokenInfo.Email))
 			.ReturnsAsync(clientAccount);
 
-		_portfolioRepositoryMock.Setup
-			(
-				x => x.DecrementPortfolioAsync
-				(
-					expectedAsset, request.Quantity, clientAccount.Id
-				)
-			)
+		_portfolioRepositoryMock.Setup(x => x.DecrementPortfolioAsync(expectedAsset, request.Quantity, clientAccount.Id))
 			.ThrowsAsync(new Exception("Error"));
 
 		Func<Task> act = async () => await _useCase.ExecuteAsync(request, string.Empty);

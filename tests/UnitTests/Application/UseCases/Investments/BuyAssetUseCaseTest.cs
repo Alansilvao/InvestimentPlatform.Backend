@@ -28,11 +28,7 @@ public class BuyAssetUseCaseTest
 		_assetsRepositoryMock = new Mock<IAssetsRepository>();
 		_portfolioRepositoryMock = new Mock<IPortfolioRepository>();
 
-		_useCase = new BuyAssetUseCase
-		(
-			_jwtProviderMock.Object, _clientsRepositoryMock.Object, _assetsRepositoryMock.Object,
-			_portfolioRepositoryMock.Object
-		);
+		_useCase = new BuyAssetUseCase(_jwtProviderMock.Object, _clientsRepositoryMock.Object, _assetsRepositoryMock.Object, _portfolioRepositoryMock.Object);
 
 		_tokenInfo = new TokenInfo
 		{
@@ -56,9 +52,6 @@ public class BuyAssetUseCaseTest
         var clientAccount = new AutoFaker<Account>()
             .RuleFor(x => x.Balance, expectedAsset.Price * request.Quantity * 2)
             .Generate();
-
-   //     var clientAccount = new Domain.Entities.Account
-			//(Guid.NewGuid().ToString(), expectedAsset.Price * request.Quantity * 2);
 
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);

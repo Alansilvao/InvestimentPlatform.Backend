@@ -1,6 +1,5 @@
 using Domain.Entities;
 using Infra.Database.Map;
-using Infra.Database.models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.Context;
@@ -11,12 +10,12 @@ public class ApplicationDbContext : DbContext
 	{
 	}
 
-    public DbSet<Asset> Assets { get; set; } = null!;
-    public DbSet<Client> Clients { get; set; } = null!;
-	public DbSet<Account> Accounts { get; set; } = null!;
-    public DbSet<AccountTransaction> AccountTransactions { get; set; } = null!;
-    public DbSet<InvestmentTransaction> InvestmentTransactions { get; set; } = null!;    
-	public DbSet<PortfolioModel> Portfolios { get; set; } = null!;	
+    public DbSet<Asset> Assets { get; set; }
+    public DbSet<Client> Clients { get; set; }
+	public DbSet<Account> Accounts { get; set; }
+    public DbSet<AccountTransaction> AccountTransactions { get; set; }
+    public DbSet<InvestmentTransaction> InvestmentTransactions { get; set; }
+	public DbSet<Portfolio> Portfolios { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -25,6 +24,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new AccountMap());
         modelBuilder.ApplyConfiguration(new AccountTransactionMap());
         modelBuilder.ApplyConfiguration(new InvestmentTransactionMap());
+        modelBuilder.ApplyConfiguration(new PortfolioMap());
 
         base.OnModelCreating(modelBuilder);       
 	}

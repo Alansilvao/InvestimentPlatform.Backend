@@ -23,10 +23,7 @@ public class GetPortfolioUseCaseTest
 		_jwtProviderMock = new Mock<IJwtProvider>();
 		_portfolioRepositoryMock = new Mock<IPortfolioRepository>();
 
-		_useCase = new GetPortfolioUseCase
-		(
-			_jwtProviderMock.Object, _portfolioRepositoryMock.Object
-		);
+		_useCase = new GetPortfolioUseCase(_jwtProviderMock.Object, _portfolioRepositoryMock.Object);
 
 		_tokenInfo = new TokenInfo
 		{
@@ -61,8 +58,7 @@ public class GetPortfolioUseCaseTest
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
 
-		_portfolioRepositoryMock.Setup
-				(x => x.GetPortfolioAsync(_tokenInfo.Email))
+		_portfolioRepositoryMock.Setup(x => x.GetPortfolioAsync(_tokenInfo.Email))
 			.ThrowsAsync(new Exception("Error"));
 
 		Func<Task> act = async () => await _useCase.ExecuteAsync(request, string.Empty);

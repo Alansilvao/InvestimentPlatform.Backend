@@ -23,7 +23,7 @@ public class AccountTransactionMap : IEntityTypeConfiguration<AccountTransaction
             .HasColumnName("COD_TIPO_TRANSACAO")
             .IsRequired();
 
-        builder.Property(x => x.Amount)
+        builder.Property(x => x.Value)
            .HasColumnName("VAL_TRANSACAO")
            .HasPrecision(18, 2)
            .IsRequired();
