@@ -19,3 +19,4 @@
 /tests/UnitTests/obj/UnitTests.csproj.nuget.dgspec.json
 /tests/UnitTests/obj/UnitTests.csproj.nuget.g.props
 /tests/UnitTests/obj/UnitTests.csproj.nuget.g.targets
+/.sonarqube
