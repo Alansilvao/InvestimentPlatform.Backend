@@ -19,6 +19,7 @@ public class PostAssetsUseCase : IPostAssetsUseCase
 
     public async Task<PostAssetsResponse> ExecuteAsync(PostAssetsRequest request, string token, CancellationToken cancellationToken = default)
     {
+        var tokenInfo = _jwtProvider.DecodeToken(token);
         await _assetsRepository.PostAssetsAsync(request.Symbol, request.Name, request.AvailableQuantity, request.Price);
         return new PostAssetsResponse();
     }

@@ -19,6 +19,7 @@ public class DeleteAssetsUseCase : IDeleteAssetsUseCase
 
     public async Task<DeleteAssetsResponse> ExecuteAsync(DeleteAssetsRequest request, string token, CancellationToken cancellationToken = default)
     {
+        var tokenInfo = _jwtProvider.DecodeToken(token);
         await _assetsRepository.DeleteAssetsAsync(request.Id);
         return new DeleteAssetsResponse();
     }

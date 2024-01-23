@@ -53,7 +53,7 @@ public class AccountsRepository : IAccountsRepository
 		return await _context.SaveChangesAsync() > 0;
 	}
 
-	public async Task<bool> WithdrawAsync(string clientEmail, int amount)
+	public async Task<bool> WithdrawAsync(string clientEmail, decimal amount)
 	{
         var client = await _context.Clients.Include(c => c.Account)
 			.FirstOrDefaultAsync(client => client.Email == clientEmail);

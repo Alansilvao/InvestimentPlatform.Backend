@@ -1,5 +1,4 @@
 using Application.Commons.Interfaces;
-using Application.Dtos.Requests;
 using Application.Dtos.Requests.Clients;
 
 namespace Application.Interfaces.UseCases;

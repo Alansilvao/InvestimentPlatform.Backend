@@ -19,6 +19,7 @@ public class PutAssetsUseCase : IPutAssetsUseCase
 
     public async Task<PutAssetsResponse> ExecuteAsync(PutAssetsRequest request, string token, CancellationToken cancellationToken = default)
     {
+        var tokenInfo = _jwtProvider.DecodeToken(token);
         await _assetsRepository.PutAssetsAsync(request);
         return new PutAssetsResponse();
     }
