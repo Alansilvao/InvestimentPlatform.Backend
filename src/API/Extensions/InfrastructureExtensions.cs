@@ -28,8 +28,7 @@ public static class InfrastructureExtensions
 		services
 			.AddScoped<IClientsRepository, ClientsRepository>()
 			.AddScoped<IAccountsRepository, AccountsRepository>()
-			.AddScoped<IAssetsRepository, AssetsRepository>()
-			.AddScoped<IInvestmentsHistoryRepository, InvestmentsHistoryRepository>()
+			.AddScoped<IAssetsRepository, AssetsRepository>()			
 			.AddScoped<IPortfolioRepository, PortfolioRepository>();
 	}
 }

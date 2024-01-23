@@ -1,4 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Interfaces.Services;
+
 
 public interface IPasswordManager
 {

@@ -1,10 +1,7 @@
-using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Infra.Database.Context;
 using Infra.Database.models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.Repositories;
 

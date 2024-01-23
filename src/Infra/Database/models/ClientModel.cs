@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.models;
 
+[ExcludeFromCodeCoverage]
 [Index("Email", IsUnique = true)]
 public class ClientModel
 {

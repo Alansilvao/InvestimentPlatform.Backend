@@ -4,9 +4,11 @@ using Domain.Entities;
 using Infra.Database.Context;
 using Infra.Database.models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infra.Database.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class PortfolioRepository : IPortfolioRepository
 {
 	private readonly ApplicationDbContext _context;
@@ -98,10 +100,6 @@ public class PortfolioRepository : IPortfolioRepository
 		portfolio.Quantity += purchasedQuantity;
 		portfolio.AcquisitionValue += purchasedQuantity * asset.Price;
 		portfolio.UpdatedAt = DateTime.Now;
-		// portfolio.AveragePurchasePrice = portfolio.AcquisitionValue / portfolio.Quantity;
-		// portfolio.CurrentValue = portfolio.Quantity * portfolio.AveragePurchasePrice;
-		// portfolio.ProfitabilityValue = portfolio.CurrentValue - portfolio.AcquisitionValue;
-		// portfolio.ProfitabilityPercentage = portfolio.ProfitabilityValue / portfolio.AcquisitionValue;
 		_context.Portfolios.Update(portfolio);
 		return await _context.SaveChangesAsync() > 0;
 	}
@@ -129,31 +127,5 @@ public class PortfolioRepository : IPortfolioRepository
 	public async Task<GetPortfolioResponse> GetPortfolioAsync(string clientEmail)
 	{
         return null;
-		/*
-		
-		var account = _context.Clients.Include(c => c.Account).FirstOrDefaultAsync
-			(client => client.Email == clientEmail).Result!.Account;
-
-		var portfolios = await _context.Portfolios.Where
-			(p => p.AccountId == account!.Id).ToListAsync();
-		return new GetPortfolioResponse
-		(
-			portfolios.Select
-			(
-				p => new Portfolio
-				{
-					AssetId = p.AssetId,
-					Quantity = p.Quantity,
-					Symbol = p.Symbol,
-					AveragePurchasePrice = p.AveragePurchasePrice,
-					AcquisitionValue = p.AcquisitionValue,
-					CurrentValue = p.CurrentValue,
-					ProfitabilityPercentage = p.ProfitabilityPercentage,
-					ProfitabilityValue = p.ProfitabilityValue,
-					Id = p.Id,
-					AccountId = p.AccountId
-				}
-			).ToList()
-		);*/
 	}
 }

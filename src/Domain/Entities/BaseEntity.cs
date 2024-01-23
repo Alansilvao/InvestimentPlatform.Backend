@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class BaseEntity
 {
 	public string Id { get; }

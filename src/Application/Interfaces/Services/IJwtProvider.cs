@@ -1,7 +1,9 @@
 using Domain.Entities;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Interfaces.Services;
 
+[ExcludeFromCodeCoverage]
 public class TokenInfo
 {
 	public string Email { get; set; }

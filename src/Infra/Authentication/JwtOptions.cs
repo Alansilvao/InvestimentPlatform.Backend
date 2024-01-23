@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Infra.Authentication;
 
+[ExcludeFromCodeCoverage]
 public class JwtOptions
 {
 	public string Issuer { get; init; } = null!;

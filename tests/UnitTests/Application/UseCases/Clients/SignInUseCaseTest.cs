@@ -8,6 +8,7 @@ using AutoBogus;
 using Domain.Entities;
 using FluentAssertions;
 using Moq;
+using Xunit;
 
 public class SignInUseCaseTest
 {

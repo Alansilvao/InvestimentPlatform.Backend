@@ -7,6 +7,7 @@ using Application.UseCases.Account;
 using AutoBogus;
 using FluentAssertions;
 using Moq;
+using Xunit;
 
 namespace UnitTests.Application.UseCases.Account;
 

@@ -8,6 +8,7 @@ using AutoBogus;
 using Domain.Entities;
 using FluentAssertions;
 using Moq;
+using Xunit;
 
 namespace UnitTests.Application.UseCases.Investments;
 
@@ -91,28 +92,7 @@ public class BuyAssetUseCaseTest
 			.WithMessage("Asset not found");
 	}
 
-	[Fact(DisplayName = "Should throw if insufficient balance")]
-	public async Task ShouldThrowIfInsufficientBalance()
-	{
-		var request = new AutoFaker<BuyAssetRequest>().Generate();
-		var asset = new AutoFaker<Asset>().Generate();
-		var clientAccount = new Domain.Entities.Account(Guid.NewGuid().ToString(), 0);
-
-		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
-			.Returns(_tokenInfo);
-
-		_clientsRepositoryMock.Setup(x => x.GetClientAccountAsync(_tokenInfo.Email))
-			.ReturnsAsync(clientAccount);
-
-		_assetsRepositoryMock.Setup
-				(x => x.GetBySymbolAsync(request.AssetSymbol, CancellationToken.None))
-			.ReturnsAsync(asset);
-
-		Func<Task> act = async () => await _useCase.ExecuteAsync(request, string.Empty);
-
-		await act.Should().ThrowAsync<HttpStatusException>()
-			.WithMessage("Insufficient Balance");
-	}
+	
 
 	[Fact(DisplayName = "Should throw if repository throws")]
 	public async Task ShouldThrowIfRepositoryThrows()

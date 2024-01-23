@@ -6,6 +6,7 @@ using AutoBogus;
 using Domain.Entities;
 using FluentAssertions;
 using Moq;
+using Xunit;
 
 namespace UnitTests.Application.UseCases.Assets;
 

@@ -8,6 +8,7 @@ using AutoBogus;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using Xunit;
 
 namespace UnitTests.Application.UseCases.Account;
 

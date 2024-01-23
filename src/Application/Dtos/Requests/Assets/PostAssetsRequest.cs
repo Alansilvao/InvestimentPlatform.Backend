@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Dtos.Requests.Assets
 {
+    [ExcludeFromCodeCoverage]
     public class PostAssetsRequest
     {
         [Required(ErrorMessage = "Asset name is required")]

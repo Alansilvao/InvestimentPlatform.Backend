@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Dtos.Requests.Investments;
 
+[ExcludeFromCodeCoverage]
 public class BuyAssetRequest
 {
 	[Required(ErrorMessage = "The asset is required")]

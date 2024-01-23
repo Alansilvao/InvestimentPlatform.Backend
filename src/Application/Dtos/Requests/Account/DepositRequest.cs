@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Dtos.Requests.Account;
 
+[ExcludeFromCodeCoverage]
 public class DepositRequest
 {
 	[Required(ErrorMessage = "Deposit value is required")]

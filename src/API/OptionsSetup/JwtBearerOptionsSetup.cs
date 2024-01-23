@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Infra.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.OptionsSetup;
 
+[ExcludeFromCodeCoverage]
 public class JwtBearerOptionsSetup : IConfigureOptions<JwtBearerOptions>
 {
 	private readonly JwtOptions _jwtOptions;

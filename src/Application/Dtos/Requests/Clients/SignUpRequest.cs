@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Dtos.Requests.Clients;
 
+[ExcludeFromCodeCoverage]
 public class SignUpRequest
 {
 	[Required(ErrorMessage = "Name is required")]

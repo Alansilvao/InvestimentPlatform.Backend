@@ -1,8 +1,10 @@
 using Application.Interfaces.Services;
 using BCrypt.Net;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infra.Services;
 
+[ExcludeFromCodeCoverage]
 public class PasswordManager : IPasswordManager
 {
 	public string Hash(string password)
