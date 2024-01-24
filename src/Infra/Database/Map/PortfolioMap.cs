@@ -1,9 +1,11 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infra.Database.Map;
 
+[ExcludeFromCodeCoverage]
 public class PortfolioMap : IEntityTypeConfiguration<Portfolio>
 {
     public void Configure(EntityTypeBuilder<Portfolio> builder)

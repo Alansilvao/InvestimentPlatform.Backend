@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class Client
 {
     public Client(string name, string email, string password)

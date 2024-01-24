@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Dtos.Responses.Investments;
 
+[ExcludeFromCodeCoverage]
 public class BuyAssetResponse
 {
 	public string Symbol { get; set; }

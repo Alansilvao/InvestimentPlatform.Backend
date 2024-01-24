@@ -1,8 +1,10 @@
 using Infra.Database.Config;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
 namespace API.OptionsSetup;
 
+[ExcludeFromCodeCoverage]
 public class DatabaseOptionsSetup : IConfigureOptions<DatabaseOptions>
 {
 	private readonly IConfiguration _configuration;

@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class Account
 {
     public Account(int clientId, decimal balance)

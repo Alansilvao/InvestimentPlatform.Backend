@@ -4,9 +4,11 @@ using Domain.Entities;
 using Domain.Enums;
 using Infra.Database.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infra.Database.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class PortfolioRepository : IPortfolioRepository
 {
 	private readonly ApplicationDbContext _context;

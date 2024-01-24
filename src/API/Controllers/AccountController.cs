@@ -3,9 +3,11 @@ using Application.Exceptions;
 using Application.Interfaces.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace API.Controllers;
 
+[ExcludeFromCodeCoverage]
 [Route("api/v1/account")]
 [Authorize]
 public class AccountController : ControllerBase

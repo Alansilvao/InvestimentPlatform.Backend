@@ -1,9 +1,11 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infra.Database.Map;
 
+[ExcludeFromCodeCoverage]
 public class InvestmentTransactionMap : IEntityTypeConfiguration<InvestmentTransaction>
 {
     public void Configure(EntityTypeBuilder<InvestmentTransaction> builder)

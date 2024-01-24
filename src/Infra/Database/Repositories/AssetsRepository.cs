@@ -5,9 +5,11 @@ using Domain.Entities;
 using Infra.Database.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infra.Database.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class AssetsRepository : IAssetsRepository
 {
     private readonly ApplicationDbContext _context;

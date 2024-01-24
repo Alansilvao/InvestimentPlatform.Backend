@@ -1,4 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Domain.Enums;
+
+
 
 public enum InvestmentTransactionType
 {

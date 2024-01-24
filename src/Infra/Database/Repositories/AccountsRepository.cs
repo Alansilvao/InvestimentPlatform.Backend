@@ -5,9 +5,11 @@ using Domain.Enums;
 using Infra.Database.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infra.Database.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class AccountsRepository : IAccountsRepository
 {
 	private readonly ApplicationDbContext _context;

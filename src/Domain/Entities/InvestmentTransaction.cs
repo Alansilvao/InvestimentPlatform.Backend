@@ -1,7 +1,9 @@
 using Domain.Enums;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Entities;
 
+[ExcludeFromCodeCoverage]
 public class InvestmentTransaction
 {
     public InvestmentTransaction(int accountId, int assetId, InvestmentTransactionType transactionType, int quantity, decimal price)

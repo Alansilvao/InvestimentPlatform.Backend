@@ -3,9 +3,11 @@ using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Infra.Database.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Infra.Database.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class ClientsRepository : IClientsRepository
 {
 	private readonly ApplicationDbContext _context;

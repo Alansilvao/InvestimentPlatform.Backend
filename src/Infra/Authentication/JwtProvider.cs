@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -8,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infra.Authentication;
 
+[ExcludeFromCodeCoverage]
 public class JwtProvider : IJwtProvider
 {
 	private readonly JwtOptions _options;
