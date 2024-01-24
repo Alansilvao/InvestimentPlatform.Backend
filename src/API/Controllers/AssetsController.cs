@@ -114,7 +114,7 @@ public class AssetsController : ControllerBase
             var authorizationHeader = Request.Headers["Authorization"].ToString();
             var token = authorizationHeader["Bearer ".Length..].Trim();
 
-            var output = await _putAssetsUseCase.ExecuteAsync(request, string.Empty);
+            var output = await _putAssetsUseCase.ExecuteAsync(request, token);
 
             return Ok(output);
         }
