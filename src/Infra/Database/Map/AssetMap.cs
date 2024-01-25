@@ -33,10 +33,5 @@ public class AssetMap : IEntityTypeConfiguration<Asset>
            .HasColumnName("VAL_PRECO")
            .HasPrecision(18,2)
            .IsRequired();
-
-        builder.Property(x => x.MarketValue)
-           .HasColumnName("VAL_MERCADO")
-           .HasPrecision(18, 2)
-           .IsRequired();
     }
 }

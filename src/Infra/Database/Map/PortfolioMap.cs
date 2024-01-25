@@ -46,16 +46,6 @@ public class PortfolioMap : IEntityTypeConfiguration<Portfolio>
            .HasPrecision(18, 2)
            .IsRequired();
 
-        builder.Property(x => x.ProfitabilityValue)
-           .HasColumnName("VAL_RENTABILIDADE")
-           .HasPrecision(18, 2)
-           .IsRequired();
-
-        builder.Property(x => x.ProfitabilityPercentage)
-           .HasColumnName("PCT_RENTABILIDADE")
-           .HasPrecision(18, 2)
-           .IsRequired();
-
         builder.Property(x => x.CreatedAt)
            .HasColumnName("DAT_INC")
            .IsRequired();

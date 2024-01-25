@@ -7,7 +7,13 @@ public class Asset
 	public string Name { get; set; }
 	public int AvailableQuantity { get; set; }
 	public decimal Price { get; set; }
-    public decimal MarketValue { get; private set; }
+    public decimal MarketValue
+    {
+        get
+        {
+            return AvailableQuantity * Price;
+        }
+    }
 
     public Asset(string symbol, string name, int availableQuantity, decimal price)
 	{
@@ -15,6 +21,5 @@ public class Asset
 		Name = name;
 		AvailableQuantity = availableQuantity;
 		Price = price;
-		MarketValue = availableQuantity * price;
 	}
 }

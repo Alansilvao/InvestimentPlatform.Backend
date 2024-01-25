@@ -10,8 +10,6 @@ public class Portfolio
 	public decimal AveragePurchasePrice { get; set; }
 	public decimal AcquisitionValue { get; set; }
 	public decimal CurrentValue { get; set; }	
-	public decimal ProfitabilityValue { get; set; }
-    public decimal ProfitabilityPercentage { get; set; }
     public DateTime CreatedAt { get; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 }
