@@ -2,9 +2,11 @@ using Application.Dtos.Requests.Clients;
 using Application.Exceptions;
 using Application.Interfaces.UseCases;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace API.Controllers;
 
+[ExcludeFromCodeCoverage]
 [Route("api/v1")]
 public class ClientsController : ControllerBase
 {
