@@ -13,13 +13,16 @@ public class InvestmentsController : ControllerBase
 	private readonly IBuyAssetUseCase _buyAssetUseCase;
 	private readonly ISellAssetUseCase _sellAssetUseCase;
 	private readonly IGetPortfolioUseCase _getPortfolioUseCase;
+    private readonly ILogger<InvestmentsController> _logger;
 
-	public InvestmentsController(IBuyAssetUseCase buyAssetUse, ISellAssetUseCase sellAssetUse, IGetPortfolioUseCase getPortfolioUseCase)
+    public InvestmentsController(IBuyAssetUseCase buyAssetUse, ISellAssetUseCase sellAssetUse, 
+								IGetPortfolioUseCase getPortfolioUseCase, ILogger<InvestmentsController> logger)
 	{
 		_buyAssetUseCase = buyAssetUse;
 		_sellAssetUseCase = sellAssetUse;
 		_getPortfolioUseCase = getPortfolioUseCase;
-	}
+        _logger = logger;
+    }
 
 	[HttpPost]
 	[Route("buy")]
@@ -27,22 +30,28 @@ public class InvestmentsController : ControllerBase
 	{
 		try
 		{
-			if (ModelState.IsValid is false)
+            _logger.LogInformation($"{DateTime.Now} | Executando o método BuyAssetRequest");
+
+            if (ModelState.IsValid is false)
 				return BadRequest(ModelState);
 
 			var authorizationHeader = Request.Headers["Authorization"].ToString();
 			var token = authorizationHeader["Bearer ".Length..].Trim();
 
 			var output = await _buyAssetUseCase.ExecuteAsync(request, token);
-			return Ok(output);
+
+            _logger.LogInformation($"{DateTime.Now} | Compra Realizada com Sucesso");
+            return Ok(output);
 		}
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);
@@ -55,19 +64,28 @@ public class InvestmentsController : ControllerBase
 	{
 		try
 		{
-			var authorizationHeader = Request.Headers["Authorization"].ToString();
+            _logger.LogInformation($"{DateTime.Now} | Executando o método SellAssetRequest");
+
+            if (ModelState.IsValid is false)
+                return BadRequest(ModelState);
+
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
 			var token = authorizationHeader["Bearer ".Length..].Trim();
 
 			var output = await _sellAssetUseCase.ExecuteAsync(request, token);
-			return Ok(output);
+
+            _logger.LogInformation($"{DateTime.Now} | Venda Realizada com Sucesso");
+            return Ok(output);
 		}
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);
@@ -80,19 +98,25 @@ public class InvestmentsController : ControllerBase
 	{
 		try
 		{
-			var authorizationHeader = Request.Headers["Authorization"].ToString();
+            _logger.LogInformation($"{DateTime.Now} | Executando o método SignInRequest");
+
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
 			var token = authorizationHeader["Bearer ".Length..].Trim();
 
 			var output = await _getPortfolioUseCase.ExecuteAsync(new GetPortfolioRequest(), token);
-			return Ok(output);
+
+            _logger.LogInformation($"{DateTime.Now} | Portfólio Consultado com Sucesso");
+            return Ok(output);
 		}
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);
