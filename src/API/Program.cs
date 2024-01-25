@@ -1,4 +1,5 @@
 using API.Extensions;
+using Application.Logging;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
@@ -41,6 +42,12 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration()
+{
+    LogLevel = LogLevel.Information
+}));
 
 var app = builder.Build();
 

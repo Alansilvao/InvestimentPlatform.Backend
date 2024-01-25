@@ -16,41 +16,48 @@ public class AccountController : ControllerBase
 	private readonly IWithdrawUseCase _withdrawUseCase;
 	private readonly IGetAccountBalanceUseCase _getAccountBalanceUseCase;
 	private readonly IGetTransactionsUseCase _getTransactionsUseCase;
+    private readonly ILogger<AccountController> _logger;
 
-	public AccountController(
+    public AccountController(
 		IDepositUseCase depositUseCase, IWithdrawUseCase withdrawUseCase,
 		IGetAccountBalanceUseCase getAccountBalanceUseCase,
-		IGetTransactionsUseCase getTransactionsUseCase
+		IGetTransactionsUseCase getTransactionsUseCase,
+        ILogger<AccountController> logger
 	)
 	{
 		_depositUseCase = depositUseCase;
 		_withdrawUseCase = withdrawUseCase;
 		_getAccountBalanceUseCase = getAccountBalanceUseCase;
 		_getTransactionsUseCase = getTransactionsUseCase;
-	}
+        _logger = logger;
+    }
 
 	[HttpGet("balance")]
 	public async Task<IActionResult> GetAccountBalance()
 	{
 		try
 		{
-			if (ModelState.IsValid is false)
+            _logger.LogInformation($"{DateTime.Now} | Executando o método GetAccountBalance");
+
+            if (ModelState.IsValid is false)
 				return BadRequest(ModelState);
 
 			var authorizationHeader = Request.Headers["Authorization"].ToString();
 			var token = authorizationHeader["Bearer ".Length..].Trim();
 
 			var output = await _getAccountBalanceUseCase.ExecuteAsync(new GetBalanceRequest(), token);
-
-			return Ok(output);
+            _logger.LogInformation($"{DateTime.Now} | Realizado consulta de saldo na conta com sucesso");
+            return Ok(output);
 		}
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);
@@ -62,23 +69,27 @@ public class AccountController : ControllerBase
 	{
 		try
 		{
-			if (ModelState.IsValid is false)
+            _logger.LogInformation($"{DateTime.Now} | Executando o método DepositRequest");
+
+            if (ModelState.IsValid is false)
 				return BadRequest(ModelState);
 
 			var authorizationHeader = Request.Headers["Authorization"].ToString();
 			var token = authorizationHeader["Bearer ".Length..].Trim();
 
 			var output = await _depositUseCase.ExecuteAsync(request, token);
-
-			return Ok(output);
+            _logger.LogInformation($"{DateTime.Now} | Depósito Realizado com Sucesso");
+            return Ok(output);
 		}
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);
@@ -90,20 +101,27 @@ public class AccountController : ControllerBase
 	{
 		try
 		{
-			var authorizationHeader = Request.Headers["Authorization"].ToString();
+            _logger.LogInformation($"{DateTime.Now} | Executando o método WithdrawRequest");
+
+            if (ModelState.IsValid is false)
+                return BadRequest(ModelState);
+
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
 			var token = authorizationHeader["Bearer ".Length..].Trim();
 
 			var output = await _withdrawUseCase.ExecuteAsync(request, token);
-
-			return Ok(output);
+            _logger.LogInformation($"{DateTime.Now} | Retirada Realizada com Sucesso");
+            return Ok(output);
 		}
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);
@@ -115,20 +133,23 @@ public class AccountController : ControllerBase
 	{
 		try
 		{
-			var authorizationHeader = Request.Headers["Authorization"].ToString();
+            _logger.LogInformation($"{DateTime.Now} | Executando o método GetTransactionsExtract");
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
 			var token = authorizationHeader["Bearer ".Length..].Trim();
 
 			var output = await _getTransactionsUseCase.ExecuteAsync(new GetTransactionsExtractRequest(), token);
-
-			return output is null ? BadRequest() : Ok(output);
+            _logger.LogInformation($"{DateTime.Now} | Extrato Bancário Retornado com Sucesso");
+            return output is null ? BadRequest() : Ok(output);
 		}
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);

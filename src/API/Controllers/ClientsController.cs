@@ -12,12 +12,16 @@ public class ClientsController : ControllerBase
 {
 	private readonly ISignInUseCase _signInUseCase;
 	private readonly ISignUpUseCase _signUpUseCase;
+    private readonly ILogger<ClientsController> _logger;
 
-	public ClientsController(ISignInUseCase signInUseCase, ISignUpUseCase signUpUseCase)
+    public ClientsController(ISignInUseCase signInUseCase, 
+							ISignUpUseCase signUpUseCase,
+                            ILogger<ClientsController> logger)
 	{
 		_signInUseCase = signInUseCase;
 		_signUpUseCase = signUpUseCase;
-	}
+        _logger = logger;
+    }
 
 	[HttpPost]
 	[Route("token")]
@@ -25,19 +29,26 @@ public class ClientsController : ControllerBase
 	{
 		try
 		{
+			_logger.LogInformation($"{DateTime.Now} | Executando o método SignInRequest");
+
 			if (ModelState.IsValid is false)
 				return BadRequest(ModelState);
 
-			var output = await _signInUseCase.ExecuteAsync(request);
-			return Ok(output);
-		}
+            
+            var output = await _signInUseCase.ExecuteAsync(request);
+            _logger.LogInformation($"{DateTime.Now} | Token Obtido com Sucesso");
+            return Ok(output);
+            
+        }
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
 		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);
@@ -50,19 +61,24 @@ public class ClientsController : ControllerBase
 	{
 		try
 		{
-			if (ModelState.IsValid is false)
+            _logger.LogInformation($"{DateTime.Now} | Executando o método SignUpRequest");
+
+            if (ModelState.IsValid is false)
 				return BadRequest(ModelState);
 
 			await _signUpUseCase.ExecuteAsync(request);
-			return Created("Account created", null);
+            _logger.LogInformation($"{DateTime.Now} | Conta Cadastrada com Sucesso");
+            return Created("Account created", null);
 		}
 		catch (HttpStatusException ex)
 		{
-			return StatusCode(ex.StatusCode, new { ex.Message });
+            _logger.LogError($"{DateTime.Now} | {ex.StatusCode}: {ex.Message}");
+            return StatusCode(ex.StatusCode, new { ex.Message });
 		}
 		catch (Exception ex)
 		{
-			return StatusCode
+            _logger.LogError($"{DateTime.Now} | {ex.Message} - {ex.StackTrace}");
+            return StatusCode
 			(
 				StatusCodes.Status500InternalServerError, new { Message = "Internal Server Error" }
 			);
