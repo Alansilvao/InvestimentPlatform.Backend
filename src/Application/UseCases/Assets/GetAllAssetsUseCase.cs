@@ -18,6 +18,6 @@ public class GetAllAssetsUseCase : IGetAllAssetsUseCase
 	{
 		var assets = await _assetsRepository.GetAllAsync(cancellationToken);
 
-		return new GetAllAssetsResponse(assets.OrderByDescending(it => it.MarketValue));
+		return new GetAllAssetsResponse(assets);
 	}
 }

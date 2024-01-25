@@ -20,7 +20,7 @@ public class GetAllAssetsUseCaseTest
 		_useCase = new GetAllAssetsUseCase(_assetsRepositoryMock.Object);
 	}
 
-	[Fact(DisplayName = "Should get all assets order by highest market value")]
+	[Fact(DisplayName = "Should get all assets")]
 	public async Task ShouldGetAllAssets()
 	{
 		var input = new AutoFaker<GetAllAssetsRequest>().Generate();
@@ -38,7 +38,6 @@ public class GetAllAssetsUseCaseTest
 		var output = await _useCase.ExecuteAsync(input);
 
 		output.Assets.Should().BeEquivalentTo(assets);
-        output.Assets.Should().BeInDescendingOrder(it => it.MarketValue);
     }
 
 	[Fact(DisplayName = "Should throw if repository throws")]

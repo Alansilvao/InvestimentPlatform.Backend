@@ -33,7 +33,7 @@ public class ClientsController : ControllerBase
 		{
 			return StatusCode(ex.StatusCode, new { ex.Message });
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
 			return StatusCode
 			(

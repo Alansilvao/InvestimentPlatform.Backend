@@ -20,18 +20,20 @@ public class PortfolioRepository : IPortfolioRepository
 
 	public async Task<bool> IncrementPortfolioAsync(Asset asset, int purchasedQuantity, int accountId)
 	{
-		var portfolio = await _context.Portfolios.FirstOrDefaultAsync(p => p.AccountId == accountId && p.AssetId == asset.Id);
+		var assetBd = await _context.Assets.FirstOrDefaultAsync(t => t.Id == asset.Id);
+		assetBd.AvailableQuantity -= purchasedQuantity;
 
-		var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
-
+        var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
 		account.Balance -= purchasedQuantity * asset.Price;
 
 		await _context.InvestmentTransactions.AddAsync(new(accountId, asset.Id, InvestmentTransactionType.Buy, purchasedQuantity, asset.Price));
 
-		if (portfolio is null)
+        var portfolio = await _context.Portfolios.FirstOrDefaultAsync(p => p.AccountId == accountId && p.AssetId == asset.Id);
+
+        if (portfolio is null)
 			return await InsertPortfolioAsync(asset, purchasedQuantity, accountId);
 
-		return await UpdatePortfolioAsync(portfolio, asset, purchasedQuantity);
+		return await UpdatePortfolioAsync(portfolio, asset, purchasedQuantity);		
 	}
 
 	public async Task<bool> DecrementPortfolioAsync(Asset asset, int soldQuantity, int accountId)
@@ -43,8 +45,10 @@ public class PortfolioRepository : IPortfolioRepository
 
 		assertPortfolio.Quantity -= soldQuantity;
 
-		var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
+        var assetBd = await _context.Assets.FirstOrDefaultAsync(t => t.Id == asset.Id);
+        assetBd.AvailableQuantity += soldQuantity;
 
+        var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == accountId);
 		account.Balance += soldQuantity * asset.Price;
         
 		await _context.InvestmentTransactions.AddAsync(new(accountId, asset.Id, InvestmentTransactionType.Sell, soldQuantity, asset.Price));
@@ -69,8 +73,6 @@ public class PortfolioRepository : IPortfolioRepository
 		portfolio.UpdatedAt = DateTime.Now;
 		portfolio.AveragePurchasePrice = portfolio.AcquisitionValue / portfolio.Quantity;
 		portfolio.CurrentValue = portfolio.Quantity * portfolio.AveragePurchasePrice;
-		portfolio.ProfitabilityValue = portfolio.CurrentValue - portfolio.AcquisitionValue;
-		portfolio.ProfitabilityPercentage = portfolio.ProfitabilityValue / portfolio.AcquisitionValue;
 		
 		_context.Portfolios.Update(portfolio);
 
@@ -85,8 +87,6 @@ public class PortfolioRepository : IPortfolioRepository
 			AssetId = asset.Id,
 			Quantity = purchasedQuantity,
 			Symbol = asset.Symbol,
-			ProfitabilityPercentage = 0,
-			ProfitabilityValue = 0,
 			AveragePurchasePrice = asset.Price,
 			CurrentValue = asset.Price,
 			AcquisitionValue = asset.Price * purchasedQuantity
