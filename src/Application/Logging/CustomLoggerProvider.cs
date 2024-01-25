@@ -1,13 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Logging;
 
+[ExcludeFromCodeCoverage]
 public class CustomLoggerProvider : ILoggerProvider
 {
     private readonly CustomLoggerProviderConfiguration _loggerConfig;

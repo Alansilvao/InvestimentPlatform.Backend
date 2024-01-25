@@ -1,12 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Logging;
 
+[ExcludeFromCodeCoverage]
 public class CustomLoggerProviderConfiguration
 {
     public LogLevel LogLevel { get; set; } = LogLevel.Warning;
