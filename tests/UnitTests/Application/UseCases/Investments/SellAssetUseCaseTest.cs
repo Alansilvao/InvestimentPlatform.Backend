@@ -119,7 +119,7 @@ public class SellAssetUseCaseTest
 	{
 		var request = new AutoFaker<SellAssetRequest>().Generate();
 		var expectedAsset = new AutoFaker<Asset>().Generate();
-		var clientAccount = new AutoFaker<Domain.Entities.Account>().Generate();
+		var clientAccount = new AutoFaker<Account>().Generate();
 
 		_jwtProviderMock.Setup(x => x.DecodeToken(It.IsAny<string>()))
 			.Returns(_tokenInfo);
